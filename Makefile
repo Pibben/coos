@@ -1,7 +1,7 @@
 CC=arm-none-eabi-gcc
 CFLAGS=-O2 -nostartfiles -std=gnu99
 DEPS = 
-OBJ = boot.o kernel.o cboot.o
+OBJ = boot.o kernel.o cboot.o clib.o uart.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
