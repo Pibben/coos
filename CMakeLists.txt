@@ -29,6 +29,8 @@ set(SOURCE_FILES
 
 add_executable(kernel.elf ${SOURCE_FILES})
 
+set_source_files_properties(uart.c PROPERTIES COMPILE_FLAGS -O0)
+
 add_custom_command(
         TARGET kernel.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} ./kernel.elf -O binary ${CMAKE_SOURCE_DIR}/kernel.img
