@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(kernel C CXX ASM)
 
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99" )
-#set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O1" )
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2" )
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2" )
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/newlib/c++/4.9/" )
@@ -24,7 +24,8 @@ set(SOURCE_FILES
     kernel.cpp
     reg.h
     uart.c
-    uart.h)
+    uart.h
+    interrupts.c)
 
 add_executable(kernel.elf ${SOURCE_FILES})
 
