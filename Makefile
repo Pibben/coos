@@ -1,7 +1,7 @@
 CC=arm-none-eabi-gcc
 CXX=arm-none-eabi-g++
 CFLAGS=-O2 -nostartfiles -std=gnu99
-CXXFLAGS=-O2 -nostartfiles -std=c++11 -fno-exceptions -fno-unwind-tables -I/usr/include/newlib/c++/4.9/ -I/usr/include/newlib/c++/4.9/arm-none-eabi/
+CXXFLAGS=-O2 -nostartfiles -std=c++11 -fno-exceptions -fno-unwind-tables -fno-rtti -I/usr/include/newlib/c++/4.9/ -I/usr/include/newlib/c++/4.9/arm-none-eabi/
 DEPS = 
 OBJ = boot.o kernel.o cboot.o clib.o uart.o
 
@@ -15,7 +15,7 @@ OBJ = boot.o kernel.o cboot.o clib.o uart.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 kernel.elf: $(OBJ)
-	$(CC) -T linker.ld -o $@ $^ $(CFLAGS) -lstdc++
+	$(CC) -T linker.ld -o $@ $^ $(CFLAGS) -Wl,-Map,kernel.map -lstdc++
 	
 %.img: %.elf $(DEPS)
 	arm-none-eabi-objcopy $< -O binary $@
