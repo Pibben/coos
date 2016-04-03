@@ -15,7 +15,6 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map,${CMAKE_SOURCE_D
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
 set( CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
 
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
@@ -26,7 +25,7 @@ set(SOURCE_FILES
     reg.h
     uart.c
     uart.h
-    interrupts.c)
+    interrupts.c timer.h timer.cpp interrupts.h)
 
 add_executable(kernel.elf ${SOURCE_FILES})
 

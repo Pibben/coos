@@ -1,5 +1,8 @@
 #include <stdint.h>
 
+#ifndef REG_H
+#define REG_H
+
 enum
 {
     // The GPIO registers base address.
@@ -48,3 +51,5 @@ static inline uint32_t mmio_read(uint32_t reg)
 {
     return *(volatile uint32_t *)reg;
 }
+
+#endif

@@ -1,6 +1,20 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+
+#include "interrupts.h"
+#include "timer.h"
+
+static irq_controller_t* rpiIRQController = (irq_controller_t*)RPI_INTERRUPT_CONTROLLER_BASE;
+
+void enable_Basic_IRQs(uint32_t irqs) {
+    rpiIRQController->Enable_Basic_IRQs = irqs;
+}
+
+void disable_Basic_IRQs(uint32_t irqs) {
+    rpiIRQController->Disable_Basic_IRQs = irqs;
+}
 
 /**
     @brief The Reset vector interrupt handler
@@ -78,7 +92,9 @@ void __attribute__((interrupt("ABORT"))) data_abort_vector(void)
 */
 void __attribute__((interrupt("IRQ"))) interrupt_vector(void)
 {
-
+    clearIRQ();
+    printf("OK!\r\n");
+    disableTimer();
 }
 
 

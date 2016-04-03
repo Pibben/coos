@@ -3,6 +3,9 @@
  
 // Make _start global.
 .global _start
+.global _enable_interrupts
+.global _disable_interrupts
+
  
 // Entry point for the kernel.
 // r15 -> should begin execution at 0x8000.
@@ -87,3 +90,17 @@ _reset_:
 halt:
     wfe
     b halt
+
+_enable_interrupts:
+    mrs     r0, cpsr
+    bic     r0, r0, #CPSR_IRQ_INHIBIT
+    msr     cpsr_c, r0
+
+    mov     pc, lr
+
+_disable_interrupts:
+    mrs     r0, cpsr
+    orr     r0, r0, #CPSR_IRQ_INHIBIT
+    msr     cpsr_c, r0
+
+    mov     pc, lr

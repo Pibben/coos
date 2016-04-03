@@ -9,6 +9,8 @@
 
 #include "uart.h"
 
+#include "timer.h"
+
 #if defined(__cplusplus)
 extern "C"
 #endif
@@ -29,6 +31,9 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     } else {
         printf("std::vector failed\r\n");
     }
-    
+
+    printf("Interrupts ");
+    enableTimer();
+
     while ( true );
 }

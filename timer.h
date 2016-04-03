@@ -2,14 +2,14 @@
 // Created by per on 2016-04-03.
 //
 
-#ifndef KERNEL_TIMER_H_H
-#define KERNEL_TIMER_H_H
+#ifndef KERNEL_TIMER_H
+#define KERNEL_TIMER_H
 
 //https://github.com/BrianSidebotham/arm-tutorial-rpi/blob/master/part-4/armc-013/rpi-armtimer.h
 
 #include <stdint.h>
 
-#include "regh"
+#include "reg.h"
 
 /** @brief See the documentation for the ARM side timer (Section 14 of the
     BCM2835 Peripherals PDF) */
@@ -43,7 +43,22 @@ typedef struct {
     volatile uint32_t PreDivider;
     volatile uint32_t FreeRunningCounter;
 
-} arm_timer_t;
+} timer_reg_t;
+
+#if defined(__cplusplus)
+extern "C"
+#endif
+void enableTimer();
+
+#if defined(__cplusplus)
+extern "C"
+#endif
+void disableTimer();
+
+#if defined(__cplusplus)
+extern "C"
+#endif
+void clearIRQ(void);
 
 
-#endif //KERNEL_TIMER_H_H
+#endif //KERNEL_TIMER_H
