@@ -5,18 +5,18 @@ enum
     // The GPIO registers base address.
     //GPIO_BASE = 0x20200000,
     GPIO_BASE = 0x3f200000,
- 
+    
     // The offsets for reach register.
- 
+    
     // Controls actuation of pull up/down to ALL GPIO pins.
     GPPUD = (GPIO_BASE + 0x94),
- 
+    
     // Controls actuation of pull up/down for specific GPIO pin.
     GPPUDCLK0 = (GPIO_BASE + 0x98),
- 
+    
     // The base address for UART.
     UART0_BASE = GPIO_BASE + 0x1000,
- 
+    
     // The offsets for reach register for the UART.
     UART0_DR     = (UART0_BASE + 0x00),
     UART0_RSRECR = (UART0_BASE + 0x04),
@@ -40,10 +40,10 @@ enum
 
 static inline void mmio_write(uint32_t reg, uint32_t data)
 {
-	*(volatile uint32_t *)reg = data;
+    *(volatile uint32_t *)reg = data;
 }
- 
+
 static inline uint32_t mmio_read(uint32_t reg)
 {
-	return *(volatile uint32_t *)reg;
+    return *(volatile uint32_t *)reg;
 }

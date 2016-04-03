@@ -7,20 +7,20 @@ caddr_t _sbrk( int incr )
     extern char __end;
     static char* heap_end = 0;
     char* prev_heap_end;
-
+    
     if( heap_end == 0 )
         heap_end = &__end;
-
-     prev_heap_end = heap_end;
-
-     heap_end += incr;
-     return (caddr_t)prev_heap_end;
+    
+    prev_heap_end = heap_end;
+    
+    heap_end += incr;
+    return (caddr_t)prev_heap_end;
 }
 
 int _write( int file, char *ptr, int len )
 {
     uart_write(ptr, len);
-
+    
     return len;
 }
 
