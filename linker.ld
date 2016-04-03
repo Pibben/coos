@@ -40,5 +40,13 @@ SECTIONS
     }
     . = ALIGN(4096); /* align to page size */
     __bss_end = .;
+    
+    .ARM.exidx : 
+    { 
+        __exidx_start = .; 
+        *(.ARM.exidx* .gnu.linkonce.armexidx.*) 
+        __exidx_end = .; 
+    }
+
     __end = .;
 }

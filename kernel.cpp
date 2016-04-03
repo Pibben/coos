@@ -5,10 +5,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include <vector>
+
 #include "uart.h"
 
 #if defined(__cplusplus)
-extern "C" /* Use C linkage for kernel_main. */
+extern "C"
 #endif
 void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 {
@@ -19,6 +21,14 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     uart_init();
     uart_puts("Low level print OK!\r\n");
     printf("CLib printf OK!\r\n");
+    
+    std::vector<int> v;
+    v.push_back(4711);
+    if(v.front() == 4711) {
+        printf("std::vector OK\r\n");
+    } else {
+        printf("std::vector failed\r\n");
+    }
     
     while ( true );
 }

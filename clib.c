@@ -2,6 +2,8 @@
 
 #include "uart.h"
 
+//Needed for Clib
+
 caddr_t _sbrk( int incr )
 {
     extern char __end;
@@ -48,4 +50,32 @@ int _lseek(int file, int ptr, int dir)
 int _read( int file, char *ptr, int len )
 {
     return 0;
+}
+
+//Needed for libstdc++
+
+#include <errno.h>
+#undef errno
+extern int errno;
+
+void _exit( int status )
+{
+    /* Stop the compiler complaining about unused variables by "using" it */
+    (void)status;
+    
+    while(1)
+    {
+        /* TRAP HERE */
+    }
+}
+
+int _kill( int pid, int sig )
+{
+    errno = EINVAL;
+    return -1;
+}
+
+int _getpid( void )
+{
+    return 1;
 }
