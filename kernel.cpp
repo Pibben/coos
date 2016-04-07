@@ -32,6 +32,22 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         printf("std::vector failed\r\n");
     }
 
+    class StaticTest {
+    public:
+        uint32_t mValue = 0x1234;
+        StaticTest() {
+            mValue = 0x4711;
+        }
+    };
+
+    static StaticTest st;
+
+    if(st.mValue == 0x4711) {
+        printf("Static object OK\r\n");
+    } else {
+        printf("Static object Failed\r\n");
+    }
+
     printf("Interrupts ");
     setTimer(0x400, [] {
         printf("OK!\r\n");
