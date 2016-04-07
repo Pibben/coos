@@ -99,6 +99,54 @@ enum {
     ARMTIMER_CTRL_CNTR_ENABLE = (1 << 9),
 };
 
+//UART0_LCRH
+enum {
+    UART0_STICK_PARITY = (1 << 7),
+    UART0_WORLD_LENGTH_5 = (0 << 6),
+    UART0_WORLD_LENGTH_6 = (1 << 6),
+    UART0_WORLD_LENGTH_7 = (2 << 6),
+    UART0_WORLD_LENGTH_8 = (3 << 6),
+    UART0_ENABLE_FIFOS = (1 << 4),
+    UART0_TWO_STOP_BITS = (1 << 3),
+    UART0_EVEN_PARITY = (1 << 2),
+    UART0_ENABLE_PARITY = (1 << 1),
+    UART0_SEND_BREAK = (1 << 0)
+};
+
+//UART0_IMSC
+enum {
+    UART0_OVERRUN_INT_MASK = (1 << 10),
+    UART0_BREAK_INT_MASK = (1 << 9),
+    UART0_PARITY_INT_MASK = (1 << 8),
+    UART0_FRAMING_INT_MASK = (1 << 7),
+    UART0_TIMEOUT_INT_MASK = (1 << 6),
+    UART0_TRANSMIT_INT_MASK = (1 << 5),
+    UART0_RECEIVE_INT_MASK = (1 << 4),
+    UART0_CTS_INT_MASK = (1 << 1),
+    UART0_ALL_INT_MASK = 0b11111110010
+};
+
+//UART0_CR
+enum {
+    UART0_CTS_ENABLE = (1 << 15),
+    UART0_RTS_ENABLE = (1 << 14),
+    UART0_RTS = (1 << 11),
+    UART0_RECEIVE_ENABLE = (1 << 9),
+    UART0_TRANSMIT_ENABLE = (1 << 8),
+    UART0_LOOPBACK_ENABLE = (1 << 7),
+    UART0_UART_ENABLE = (1 << 0)
+};
+
+//UART0_FR
+enum {
+    UART0_TX_FIFO_EMPTY = (1 << 7),
+    UART0_RX_FIFO_FULL = (1 << 6),
+    UART0_TX_FIFO_FULL = (1 << 5),
+    UART0_RX_FIFO_EMPTY = (1 << 4),
+    UART0_BUSY = (1 << 3),
+    UART0_CTS = (1 << 0)
+};
+
 #define REG(reg) (*(volatile uint32_t *)reg)
 
 #endif

@@ -2,16 +2,6 @@
 #include "reg.h"
 #include <string.h>
 
-/*
- * size_t strlen(const char* str)
- * {
- *	size_t ret = 0;
- *	while ( str[ret] != 0 )
- *		ret++;
- *	return ret;
- * }
- */
-
 static inline void mmio_write(uint32_t reg, uint32_t data)
 {
     *(volatile uint32_t *)reg = data;
@@ -59,15 +49,14 @@ void uart_init()
     mmio_write(UART0_IBRD, 1);
     mmio_write(UART0_FBRD, 40);
     
-    // Enable FIFO & 8 bit data transmissio (1 stop bit, no parity).
-    mmio_write(UART0_LCRH, (1 << 4) | (1 << 5) | (1 << 6));
+    // Enable FIFO & 8 bit data transmission (1 stop bit, no parity).
+    mmio_write(UART0_LCRH, UART0_ENABLE_FIFOS | UART0_WORLD_LENGTH_8);
     
     // Mask all interrupts.
-    mmio_write(UART0_IMSC, (1 << 1) | (1 << 4) | (1 << 5) | (1 << 6) |
-    (1 << 7) | (1 << 8) | (1 << 9) | (1 << 10));
+    mmio_write(UART0_IMSC, UART0_ALL_INT_MASK);
     
     // Enable UART0, receive & transfer part of UART.
-    mmio_write(UART0_CR, (1 << 0) | (1 << 8) | (1 << 9));
+    mmio_write(UART0_CR, UART0_UART_ENABLE | UART0_TRANSMIT_ENABLE | UART0_RECEIVE_ENABLE);
 }
 
 static void uart_putc(unsigned char byte)
@@ -80,7 +69,9 @@ static void uart_putc(unsigned char byte)
 static unsigned char uart_getc()
 {
     // Wait for UART to have recieved something.
-    while ( mmio_read(UART0_FR) & (1 << 4) ) { }
+    while (mmio_read(UART0_FR) & UART0_RX_FIFO_EMPTY) {
+
+    }
     return mmio_read(UART0_DR);
 }
 
