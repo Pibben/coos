@@ -33,7 +33,12 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     }
 
     printf("Interrupts ");
-    enableTimer();
+    setTimer(0x400, [] {
+        printf("OK!\r\n");
+    });
+
 
     while ( true );
 }
+
+void *__dso_handle = 0;

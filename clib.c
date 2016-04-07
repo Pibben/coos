@@ -79,3 +79,9 @@ int _getpid( void )
 {
     return 1;
 }
+
+//For global objects
+int _open( const char *name, int flags, int mode )
+{
+    return -1;
+}

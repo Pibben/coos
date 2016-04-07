@@ -8,6 +8,7 @@
 #include "reg.h"
 #include "interrupts.h"
 
+std::function<void(void)> gTimerCallback;
 
 void enableTimer(uint32_t value) {
     enable_Basic_IRQs(BASIC_ARM_TIMER_IRQ);
@@ -32,6 +33,6 @@ static void clearIRQ(void) {
 
 void handleTimerInterrupt() {
     clearIRQ();
-    printf("OK!\r\n");
+    gTimerCallback();
     disableTimer();
 }
