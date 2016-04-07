@@ -5,6 +5,8 @@
 .global _start
 .global _enable_interrupts
 .global _disable_interrupts
+.extern interruptHandler
+.extern _cstartup
 
  
 // Entry point for the kernel.
@@ -41,13 +43,13 @@ _start:
     ldr pc, _fast_interrupt_vector_h
 
 _reset_h:                           .word   _reset_
-_undefined_instruction_vector_h:    .word   undefined_instruction_vector
-_software_interrupt_vector_h:       .word   software_interrupt_vector
-_prefetch_abort_vector_h:           .word   prefetch_abort_vector
-_data_abort_vector_h:               .word   data_abort_vector
+_undefined_instruction_vector_h:    .word   halt
+_software_interrupt_vector_h:       .word   halt
+_prefetch_abort_vector_h:           .word   halt
+_data_abort_vector_h:               .word   halt
 _unused_handler_h:                  .word   _reset_
-_interrupt_vector_h:                .word   interrupt_vector
-_fast_interrupt_vector_h:           .word   fast_interrupt_vector
+_interrupt_vector_h:                .word   irq_handler
+_fast_interrupt_vector_h:           .word   halt
 
 _reset_:
     // We enter execution in supervisor mode. For more information on
@@ -92,15 +94,15 @@ halt:
     b halt
 
 _enable_interrupts:
-    mrs     r0, cpsr
-    bic     r0, r0, #CPSR_IRQ_INHIBIT
-    msr     cpsr_c, r0
-
+    cpsie   i
     mov     pc, lr
 
 _disable_interrupts:
-    mrs     r0, cpsr
-    orr     r0, r0, #CPSR_IRQ_INHIBIT
-    msr     cpsr_c, r0
-
+    cpsid   i
     mov     pc, lr
+
+irq_handler:
+    push {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
+    bl interruptHandler
+    pop  {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
+    subs pc,lr,#4

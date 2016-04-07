@@ -2,33 +2,36 @@
 // Created by per on 2016-04-03.
 //
 
+#include <stdio.h>
+
 #include "timer.h"
 #include "reg.h"
 #include "interrupts.h"
 
-static timer_reg_t * timer = (timer_reg_t *)RPI_ARMTIMER_BASE;
 
-extern "C"
-void enableTimer() {
-    enable_Basic_IRQs(RPI_BASIC_ARM_TIMER_IRQ);
+void enableTimer(uint32_t value) {
+    enable_Basic_IRQs(BASIC_ARM_TIMER_IRQ);
 
-    timer->Load = 0x400;
+    REG(ARMTIMER_LOAD) = value;
 
-    timer->Control = RPI_ARMTIMER_CTRL_23BIT |
-                     RPI_ARMTIMER_CTRL_ENABLE |
-                     RPI_ARMTIMER_CTRL_INT_ENABLE |
-                     RPI_ARMTIMER_CTRL_PRESCALE_256;
+    REG(ARMTIMER_CTRL) = ARMTIMER_CTRL_23BIT |
+                         ARMTIMER_CTRL_ENABLE |
+                         ARMTIMER_CTRL_INT_ENABLE |
+                         ARMTIMER_CTRL_PRESCALE_256;
 
-    /* Enable interrupts! */
     _enable_interrupts();
 }
 
-extern "C"
 void disableTimer() {
-    disable_Basic_IRQs(RPI_BASIC_ARM_TIMER_IRQ);
+    disable_Basic_IRQs(BASIC_ARM_TIMER_IRQ);
 }
 
-extern "C"
-void clearIRQ(void) {
-    timer->IRQClear = 1;
+static void clearIRQ(void) {
+    REG(ARMTIMER_IRQ_CLEAR) = 1;
+}
+
+void handleTimerInterrupt() {
+    clearIRQ();
+    printf("OK!\r\n");
+    disableTimer();
 }

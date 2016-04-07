@@ -25,7 +25,7 @@ set(SOURCE_FILES
     reg.h
     uart.c
     uart.h
-    interrupts.c timer.h timer.cpp interrupts.h)
+        interrupts.cpp timer.h timer.cpp interrupts.h)
 
 add_executable(kernel.elf ${SOURCE_FILES})
 
