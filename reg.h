@@ -64,10 +64,6 @@ enum
     UART0_TDR    = (UART0_BASE + 0x8C),
 };
 
-static inline void mmio_write(uint32_t reg, uint32_t data)
-{
-    *(volatile uint32_t *)reg = data;
-}
 //BASIC IRQs
 enum {
     BASIC_ARM_TIMER_IRQ       = (1 << 0),
@@ -80,10 +76,6 @@ enum {
     BASIC_ACCESS_ERROR_0_IRQ  = (1 << 7)
 };
 
-static inline uint32_t mmio_read(uint32_t reg)
-{
-    return *(volatile uint32_t *)reg;
-}
 //ARMTIMER_CTRL:
 enum {
 
