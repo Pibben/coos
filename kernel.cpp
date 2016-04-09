@@ -8,8 +8,10 @@
 #include <vector>
 
 #include "uart.h"
-
+#include "system.h"
 #include "timer.h"
+
+
 
 #if defined(__cplusplus)
 extern "C"
@@ -48,10 +50,15 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         printf("Static object Failed\r\n");
     }
 
+    auto& system = System::instance();
+    auto& ev = system.eventloop();
+
     printf("Interrupts ");
     setTimer(0x400, [] {
         printf("OK!\r\n");
     });
+
+    ev.runOne();
 
 
     while ( true );

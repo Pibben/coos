@@ -7,6 +7,7 @@
 #include "timer.h"
 #include "reg.h"
 #include "interrupts.h"
+#include "system.h"
 
 std::function<void(void)> gTimerCallback;
 
@@ -33,6 +34,6 @@ static void clearIRQ(void) {
 
 void handleTimerInterrupt() {
     clearIRQ();
-    gTimerCallback();
+    System::instance().eventloop().post(gTimerCallback);
     disableTimer();
 }
