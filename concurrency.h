@@ -1,0 +1,49 @@
+//
+// Created by per on 2016-04-10.
+//
+
+#ifndef KERNEL_CONCURRENCY_H_H
+#define KERNEL_CONCURRENCY_H_H
+
+#include <stdint.h>
+#include "interrupts.h"
+
+class InterruptLock {
+private:
+    volatile uint32_t mFlags;
+    static const uint32_t mIntMask = 1U << 7; //TODO: remove magic constant
+public:
+
+    InterruptLock() : mFlags(0U) { }
+
+    void lock() {
+        __asm volatile("mrs %0, cpsr" : "=r" (mFlags));
+        _disable_interrupts();
+    }
+
+    void unlock() {
+        if ((mFlags & mIntMask) == 0) {
+            _enable_interrupts();
+        }
+    }
+
+    void lockIntr() {
+
+    }
+
+    void unlockIntr() {
+
+    }
+};
+
+class WaitCond { //TODO: Rename
+public:
+    void wait(InterruptLock& lock) {
+        lock.unlock();
+        __asm volatile("wfi");
+        lock.lock();
+    }
+};
+
+
+#endif //KERNEL_CONCURRENCY_H_H

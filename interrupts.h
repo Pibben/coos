@@ -17,6 +17,10 @@ void disable_Basic_IRQs(uint32_t irqs);
 extern "C"
 #endif
 void _enable_interrupts();
+#if defined(__cplusplus)
+extern "C"
+#endif
+void _disable_interrupts();
 
 
 #endif //KERNEL_INTERRUPTS_H

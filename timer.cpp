@@ -34,6 +34,6 @@ static void clearIRQ(void) {
 
 void handleTimerInterrupt() {
     clearIRQ();
-    System::instance().eventloop().post(gTimerCallback);
+    System::instance().eventloop().postIntr(gTimerCallback);
     disableTimer();
 }
