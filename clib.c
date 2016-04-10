@@ -21,7 +21,7 @@ caddr_t _sbrk( int incr )
 
 int _write( int file, char *ptr, int len )
 {
-    uart_write(ptr, len);
+    uart_write((unsigned char*)ptr, len);
     
     return len;
 }

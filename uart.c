@@ -66,6 +66,7 @@ static void uart_putc(unsigned char byte)
     mmio_write(UART0_DR, byte);
 }
 
+#if 0
 static unsigned char uart_getc()
 {
     // Wait for UART to have recieved something.
@@ -74,6 +75,7 @@ static unsigned char uart_getc()
     }
     return mmio_read(UART0_DR);
 }
+#endif
 
 void uart_write(const unsigned char* buffer, size_t size)
 {
