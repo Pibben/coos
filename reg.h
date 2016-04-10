@@ -3,6 +3,10 @@
 #ifndef REG_H
 #define REG_H
 
+enum {
+    CPSR_IRQ = (1 << 7)
+};
+
 enum
 {
     // The GPIO registers base address.

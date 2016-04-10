@@ -11,7 +11,6 @@
 class InterruptLock {
 private:
     volatile uint32_t mFlags;
-    static const uint32_t mIntMask = 1U << 7; //TODO: remove magic constant
 public:
 
     InterruptLock() : mFlags(0U) { }
@@ -22,7 +21,7 @@ public:
     }
 
     void unlock() {
-        if ((mFlags & mIntMask) == 0) {
+        if ((mFlags & CPSR_IRQ) == 0) {
             _enable_interrupts();
         }
     }
