@@ -24,16 +24,16 @@ set( CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
 set(SOURCE_FILES
     boot.S
     cboot.c
-    clib.c
+        clib.cpp
     kernel.cpp
     reg.h
-    uart.c
+        uart.cpp
     uart.h
         interrupts.cpp timer.h timer.cpp interrupts.h system.h eventloop.h concurrency.h)
 
 add_executable(kernel.elf ${SOURCE_FILES})
 
-set_source_files_properties(uart.c PROPERTIES COMPILE_FLAGS -O0)
+set_source_files_properties(uart.cpp PROPERTIES COMPILE_FLAGS -O0)
 
 add_custom_command(
         TARGET kernel.elf POST_BUILD

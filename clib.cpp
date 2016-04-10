@@ -4,6 +4,7 @@
 
 //Needed for Clib
 
+extern "C"
 caddr_t _sbrk( int incr )
 {
     extern char __end;
@@ -19,6 +20,7 @@ caddr_t _sbrk( int incr )
     return (caddr_t)prev_heap_end;
 }
 
+extern "C"
 int _write( int file, char *ptr, int len )
 {
     uart_write((unsigned char*)ptr, len);
@@ -26,27 +28,32 @@ int _write( int file, char *ptr, int len )
     return len;
 }
 
+extern "C"
 int _close( int file )
 {
     return -1;
 }
 
+extern "C"
 int _fstat( int file, struct stat *st )
 {
     st->st_mode = S_IFCHR;
     return 0;
 }
 
+extern "C"
 int _isatty(int file)
 {
     return 1;
 }
 
+extern "C"
 int _lseek(int file, int ptr, int dir)
 {
     return 0;
 }
 
+extern "C"
 int _read( int file, char *ptr, int len )
 {
     return 0;
@@ -69,18 +76,21 @@ void _exit( int status )
     }
 }
 
+extern "C"
 int _kill( int pid, int sig )
 {
     errno = EINVAL;
     return -1;
 }
 
+extern "C"
 int _getpid( void )
 {
     return 1;
 }
 
 //For global objects
+extern "C"
 int _open( const char *name, int flags, int mode )
 {
     return -1;
