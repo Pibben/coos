@@ -5,6 +5,7 @@
 
 #include "interrupts.h"
 #include "timer.h"
+#include "system.h"
 
 void enable_Basic_IRQs(uint32_t irqs) {
     REG(ENABLE_BASIC_IRQS) = irqs;
@@ -17,5 +18,11 @@ void disable_Basic_IRQs(uint32_t irqs) {
 extern "C"
 void interruptHandler()
 {
-    handleTimerInterrupt();
+    if(REG(IRQ_BASIC_PENDING) & BASIC_ARM_TIMER_IRQ) {
+        System::instance().armTimer().handleTimerInterrupt();
+    } else if(REG(IRQ_PENDING_1) & (1 << 0)) {
+        System::instance().systemTimer0().handleTimerInterrupt();
+    } else if(REG(IRQ_PENDING_1) & (1 << 2)) {
+        System::instance().systemTimer2().handleTimerInterrupt();
+    }
 }

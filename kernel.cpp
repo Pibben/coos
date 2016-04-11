@@ -53,13 +53,26 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     auto& ev = system.eventloop();
 
-    printf("Interrupts ");
-    setTimer(0x400, [] {
+    printf("ARM Timer ");
+    system.armTimer().setTimer(0x400, [] {
         printf("OK!\r\n");
     });
 
     ev.runOne();
 
+    printf("System Timer 0 ");
+    system.systemTimer0().setTimer(1000*1000, [] {
+        printf("OK!\r\n");
+    });
+
+    ev.runOne();
+
+    printf("System Timer 2 ");
+    system.systemTimer2().setTimer(1000*1000, [] {
+        printf("OK!\r\n");
+    });
+
+    ev.runOne();
 
     while ( true );
 }

@@ -20,6 +20,15 @@ enum
     // Controls actuation of pull up/down for specific GPIO pin.
     GPPUDCLK0 = (GPIO_BASE + 0x98),
 
+    SYSTEM_TIMER_BASE = (PERIPHERAL_BASE + 0x3000),
+    SYSTEM_TIMER_CS = (SYSTEM_TIMER_BASE + 0x00),
+    SYSTEM_TIMER_CLO = (SYSTEM_TIMER_BASE + 0x04),
+    SYSTEM_TIMER_CHI = (SYSTEM_TIMER_BASE + 0x08),
+    SYSTEM_TIMER_C0 = (SYSTEM_TIMER_BASE + 0x0c),
+    SYSTEM_TIMER_C1 = (SYSTEM_TIMER_BASE + 0x10),
+    SYSTEM_TIMER_C2 = (SYSTEM_TIMER_BASE + 0x14),
+    SYSTEM_TIMER_C3 = (SYSTEM_TIMER_BASE + 0x18),
+
     INTERRUPT_CONTROLLER_BASE = (PERIPHERAL_BASE + 0xB200),
 
     IRQ_BASIC_PENDING = (INTERRUPT_CONTROLLER_BASE + 0x00),
@@ -66,6 +75,14 @@ enum
     UART0_ITIP   = (UART0_BASE + 0x84),
     UART0_ITOP   = (UART0_BASE + 0x88),
     UART0_TDR    = (UART0_BASE + 0x8C),
+};
+
+//SYSTEM_TIMER_CS
+enum {
+    SYSTEM_TIMER_CS_M3 = (1 << 3),
+    SYSTEM_TIMER_CS_M2 = (1 << 2),
+    SYSTEM_TIMER_CS_M1 = (1 << 1),
+    SYSTEM_TIMER_CS_M0 = (1 << 0)
 };
 
 //BASIC IRQs
@@ -151,6 +168,6 @@ enum {
     UART0_CTS = (1 << 0)
 };
 
-#define REG(reg) (*(volatile uint32_t *)reg)
+#define REG(reg) (*(volatile uint32_t *)(reg))
 
 #endif

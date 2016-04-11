@@ -9,9 +9,7 @@
 #include "interrupts.h"
 #include "system.h"
 
-std::function<void(void)> gTimerCallback;
-
-void enableTimer(uint32_t value) {
+void ArmTimer::enableTimer(uint32_t value) {
     enable_Basic_IRQs(BASIC_ARM_TIMER_IRQ);
 
     REG(ARMTIMER_LOAD) = value;
@@ -24,7 +22,7 @@ void enableTimer(uint32_t value) {
     _enable_interrupts();
 }
 
-void disableTimer() {
+void ArmTimer::disableTimer() {
     disable_Basic_IRQs(BASIC_ARM_TIMER_IRQ);
 }
 
@@ -32,8 +30,28 @@ static void clearIRQ(void) {
     REG(ARMTIMER_IRQ_CLEAR) = 1;
 }
 
-void handleTimerInterrupt() {
+void ArmTimer::handleTimerInterrupt() {
     clearIRQ();
+    System::instance().eventloop().postIntr(gTimerCallback);
+    disableTimer();
+}
+
+
+void SystemTimer::enableTimer(uint32_t value) {
+    REG(ENABLE_IRQS_1) = (1 << mTimerIdx);
+    REG(SYSTEM_TIMER_CS) |= (1 << mTimerIdx);
+
+    REG(SYSTEM_TIMER_C0+mTimerIdx*4) = REG(SYSTEM_TIMER_CLO) + (1000*1000);
+
+    _enable_interrupts();
+}
+
+void SystemTimer::disableTimer() {
+    REG(DISABLE_IRQS_1) = (1 << mTimerIdx);
+}
+
+void SystemTimer::handleTimerInterrupt() {
+    REG(SYSTEM_TIMER_CS) |= (1 << mTimerIdx);
     System::instance().eventloop().postIntr(gTimerCallback);
     disableTimer();
 }

@@ -7,18 +7,36 @@
 
 #include <functional>
 
-extern std::function<void(void)> gTimerCallback;
+class ArmTimer {
+private:
+    std::function<void(void)> gTimerCallback;
+    void enableTimer(uint32_t value);
+    void disableTimer();
+public:
+    void handleTimerInterrupt();
 
-void enableTimer(uint32_t value);
-void disableTimer();
-void handleTimerInterrupt();
+    template <class Func>
+    void setTimer(uint32_t value, Func&& func) {
+        gTimerCallback = std::forward<Func>(func);
+        enableTimer(value);
+    }
+};
 
-template <class Func>
-void setTimer(uint32_t value, Func&& func) {
-    gTimerCallback = std::forward<Func>(func);
-    enableTimer(value);
-}
+class SystemTimer {
+    std::function<void(void)> gTimerCallback;
+    void enableTimer(uint32_t value);
+    void disableTimer();
+    uint8_t mTimerIdx;
+public:
+    SystemTimer(uint8_t timerIdx) : mTimerIdx(timerIdx) {}
+    void handleTimerInterrupt();
 
+    template <class Func>
+    void setTimer(uint32_t value, Func&& func) {
+        gTimerCallback = std::forward<Func>(func);
+        enableTimer(value);
+    }
+};
 
 
 #endif //KERNEL_TIMER_H
