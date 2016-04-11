@@ -1,6 +1,7 @@
 #include <sys/stat.h>
 
 #include "uart.h"
+#include "system.h"
 
 //Needed for Clib
 
@@ -23,7 +24,7 @@ caddr_t _sbrk( int incr )
 extern "C"
 int _write( int file, char *ptr, int len )
 {
-    uart_write((unsigned char*)ptr, len);
+    System::instance().uart().write(ptr, len);
     
     return len;
 }

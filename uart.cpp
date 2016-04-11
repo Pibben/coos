@@ -9,7 +9,7 @@ static inline void delay(int32_t count)
     : : [count]"r"(count) : "cc");
 }
 
-void uart_init()
+Uart::Uart()
 {
     // Disable UART0.
     REG(UART0_CR) = 0x00000000;
@@ -49,7 +49,7 @@ void uart_init()
     REG(UART0_CR) = UART0_UART_ENABLE | UART0_TRANSMIT_ENABLE | UART0_RECEIVE_ENABLE;
 }
 
-static void uart_putc(unsigned char byte)
+static void uart_putc(char byte)
 {
     // Wait for UART to become ready to transmit.
     while ( REG(UART0_FR) & (1 << 5) ) { }
@@ -67,13 +67,8 @@ static unsigned char uart_getc()
 }
 #endif
 
-void uart_write(const unsigned char* buffer, size_t size)
+void Uart::write(const char* buffer, size_t size)
 {
     for ( size_t i = 0; i < size; i++ )
         uart_putc(buffer[i]);
-}
-
-void uart_puts(const char* str)
-{
-    uart_write((const unsigned char*) str, strlen(str));
 }

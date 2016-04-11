@@ -21,9 +21,10 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     (void) r0;
     (void) r1;
     (void) atags;
-    
-    uart_init();
-    uart_puts("Low level print OK!\r\n");
+
+    auto& system = System::instance();
+
+    system.uart().write("Low level print OK!\r\n", 22);
     printf("CLib printf OK!\r\n");
     
     std::vector<int> v;
@@ -50,7 +51,6 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         printf("Static object Failed\r\n");
     }
 
-    auto& system = System::instance();
     auto& ev = system.eventloop();
 
     printf("Interrupts ");
