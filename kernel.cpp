@@ -10,7 +10,7 @@
 #include "uart.h"
 #include "system.h"
 #include "timer.h"
-
+#include "md5.h"
 
 
 #if defined(__cplusplus)
@@ -73,6 +73,11 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     });
 
     ev.runOne();
+
+    MD5 md5;
+    md5.update((unsigned char*)0x0, 1024*1024*100);
+    md5.finalize();
+    printf("MD5: [%s]\r\n", md5.hexdigest().c_str());
 
     while ( true );
 }
