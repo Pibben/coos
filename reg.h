@@ -123,10 +123,10 @@ enum {
 //UART0_LCRH
 enum {
     UART0_STICK_PARITY = (1 << 7),
-    UART0_WORLD_LENGTH_5 = (0 << 6),
-    UART0_WORLD_LENGTH_6 = (1 << 6),
-    UART0_WORLD_LENGTH_7 = (2 << 6),
-    UART0_WORLD_LENGTH_8 = (3 << 6),
+    UART0_WORLD_LENGTH_5 = (0 << 5),
+    UART0_WORLD_LENGTH_6 = (1 << 5),
+    UART0_WORLD_LENGTH_7 = (2 << 5),
+    UART0_WORLD_LENGTH_8 = (3 << 5),
     UART0_ENABLE_FIFOS = (1 << 4),
     UART0_TWO_STOP_BITS = (1 << 3),
     UART0_EVEN_PARITY = (1 << 2),
