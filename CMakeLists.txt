@@ -29,7 +29,7 @@ set(SOURCE_FILES
     reg.h
         uart.cpp
     uart.h
-        interrupts.cpp timer.h timer.cpp interrupts.h system.h eventloop.h concurrency.h md5.cpp md5.h)
+        interrupts.cpp timer.h timer.cpp interrupts.h system.h eventloop.h concurrency.h md5.cpp md5.h mmu.cpp mmu.h)
 
 add_executable(kernel.elf ${SOURCE_FILES})
 

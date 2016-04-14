@@ -11,6 +11,7 @@
 #include "system.h"
 #include "timer.h"
 #include "md5.h"
+#include "mmu.h"
 
 
 #if defined(__cplusplus)
@@ -73,6 +74,8 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     });
 
     ev.runOne();
+
+    mmu::enable();
 
     MD5 md5;
     uint32_t t = system.systemTimer1().getValue();
