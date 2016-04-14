@@ -14,9 +14,9 @@ private:
     Eventloop mEventloop;
     Uart mUart;
     ArmTimer mArmTimer;
-    SystemTimer mSystemTimer0;
-    SystemTimer mSystemTimer2;
-    System() : mSystemTimer0(0), mSystemTimer2(2) {}
+    SystemTimer mSystemTimer1;
+    SystemTimer mSystemTimer3;
+    System() : mSystemTimer1(1), mSystemTimer3(3) {}
 public:
     static System& instance() {
         static System system;
@@ -35,12 +35,12 @@ public:
         return mArmTimer;
     }
 
-    SystemTimer& systemTimer0() {
-        return mSystemTimer0;
+    SystemTimer& systemTimer1() {
+        return mSystemTimer1;
     }
 
-    SystemTimer& systemTimer2() {
-        return mSystemTimer2;
+    SystemTimer& systemTimer3() {
+        return mSystemTimer3;
     }
 };
 

@@ -61,14 +61,14 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     ev.runOne();
 
     printf("System Timer 0 ");
-    system.systemTimer0().setTimer(1000*1000, [] {
+    system.systemTimer1().setTimer(1000*1000, [] {
         printf("OK!\r\n");
     });
 
     ev.runOne();
 
     printf("System Timer 2 ");
-    system.systemTimer2().setTimer(1000*1000, [] {
+    system.systemTimer3().setTimer(1000*1000, [] {
         printf("OK!\r\n");
     });
 

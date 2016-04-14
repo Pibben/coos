@@ -20,9 +20,9 @@ void interruptHandler()
 {
     if(REG(IRQ_BASIC_PENDING) & BASIC_ARM_TIMER_IRQ) {
         System::instance().armTimer().handleTimerInterrupt();
-    } else if(REG(IRQ_PENDING_1) & (1 << 0)) {
-        System::instance().systemTimer0().handleTimerInterrupt();
-    } else if(REG(IRQ_PENDING_1) & (1 << 2)) {
-        System::instance().systemTimer2().handleTimerInterrupt();
+    } else if(REG(IRQ_PENDING_1) & (1 << 1)) {
+        System::instance().systemTimer1().handleTimerInterrupt();
+    } else if(REG(IRQ_PENDING_1) & (1 << 3)) {
+        System::instance().systemTimer3().handleTimerInterrupt();
     }
 }
