@@ -31,6 +31,9 @@
 .equ    CPSR_FIQ_INHIBIT,       0x40
 .equ    CPSR_THUMB,             0x20
 
+.equ    ACTLR_SMP,              (1 << 6)
+.equ    SCTLR_I,                (1 << 12)
+
 
 _start:
     ldr pc, _reset_h
@@ -99,6 +102,19 @@ _reset_:
     MOV r0,#0x40000000
     // FPEXC = r0
     FMXR FPEXC, r0
+
+    //Enable SMP
+    //mrc p15, 0, r0, c1, c0,  1
+    //orr r0, r0, #ACTLR_SMP
+    //mcr p15, 0, r0, c1, c0,  1
+
+#define USE_L1I 1
+#ifdef USE_L1I
+    //L1 instruction cache,
+    mrc p15, 0, r0, c1, c0,  0
+    orr r0, r0, #SCTLR_I
+    mcr p15, 0, r0, c1, c0,  0
+#endif
 
     // The c-startup function which we never return from. This function will
     // initialise the ro data section (most things that have the const

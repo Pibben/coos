@@ -41,7 +41,7 @@ void SystemTimer::enableTimer(uint32_t value) {
     REG(ENABLE_IRQS_1) = (1 << mTimerIdx);
     REG(SYSTEM_TIMER_CS) |= (1 << mTimerIdx);
 
-    REG(SYSTEM_TIMER_C0+mTimerIdx*4) = REG(SYSTEM_TIMER_CLO) + (1000*1000);
+    REG(SYSTEM_TIMER_C0+mTimerIdx*4) = REG(SYSTEM_TIMER_CLO) + value;
 
     _enable_interrupts();
 }
@@ -54,4 +54,8 @@ void SystemTimer::handleTimerInterrupt() {
     REG(SYSTEM_TIMER_CS) |= (1 << mTimerIdx);
     System::instance().eventloop().postIntr(gTimerCallback);
     disableTimer();
+}
+
+uint32_t SystemTimer::getValue() {
+    return REG(SYSTEM_TIMER_CLO);
 }

@@ -170,4 +170,11 @@ enum {
 
 #define REG(reg) (*(volatile uint32_t *)(reg))
 
+enum {
+    ACTLR_SMP = (1 << 6),
+    SCTLR_M = (1 << 0), //MMU, also enables BP (?)
+    SCTLR_C = (1 << 2), //Data and unified cache. ACTLR_SMP must be enabled.
+    SCTLR_I = (1 << 12) //Instruction cache
+};
+
 #endif

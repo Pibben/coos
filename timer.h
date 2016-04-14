@@ -30,6 +30,7 @@ class SystemTimer {
 public:
     SystemTimer(uint8_t timerIdx) : mTimerIdx(timerIdx) {}
     void handleTimerInterrupt();
+    uint32_t getValue();
 
     template <class Func>
     void setTimer(uint32_t value, Func&& func) {

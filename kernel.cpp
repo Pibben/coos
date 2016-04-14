@@ -75,9 +75,16 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     ev.runOne();
 
     MD5 md5;
-    md5.update((unsigned char*)0x0, 1024*1024*100);
+    uint32_t t = system.systemTimer1().getValue();
+    md5.update((unsigned char*)0x0, 1024*1024*2);
     md5.finalize();
-    printf("MD5: [%s]\r\n", md5.hexdigest().c_str());
+    printf("MD5: [%s] (%lu us)\r\n", md5.hexdigest().c_str(), system.systemTimer1().getValue()-t);
+
+    t = system.systemTimer1().getValue();
+    for(volatile int i = 0; i < 1000*1000; ++i) {
+
+    }
+    printf("Buzy loop %lu us.\r\n", system.systemTimer1().getValue()-t);
 
     while ( true );
 }
