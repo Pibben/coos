@@ -174,7 +174,11 @@ enum {
     ACTLR_SMP = (1 << 6),
     SCTLR_M = (1 << 0), //MMU, also enables BP (?)
     SCTLR_C = (1 << 2), //Data and unified cache. ACTLR_SMP must be enabled.
-    SCTLR_I = (1 << 12) //Instruction cache
+    SCTLR_I = (1 << 12), //Instruction cache
+    SCTLR_AFE = (1 << 29),
+
+
+
 };
 
 #endif
