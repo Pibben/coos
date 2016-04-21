@@ -85,29 +85,6 @@ _reset_:
     // boundary!
     mov     sp, #(64 * 1024 * 1024)
 
-
-    //Enable VFP
-    //http://stackoverflow.com/questions/24589235/application-hangs-when-calling-printf-to-uart-with-bare-metal-raspberry-pi/27257841#27257841
-    // r1 = Access Control Register
-    MRC p15, #0, r1, c1, c0, #2
-    // enable full access for p10,11
-    ORR r1, r1, #(0xf << 20)
-    // ccess Control Register = r1
-    MCR p15, #0, r1, c1, c0, #2
-    MOV r1, #0
-    // flush prefetch buffer because of FMXR below
-    MCR p15, #0, r1, c7, c5, #4
-    // and CP 10 & 11 were only just enabled
-    // Enable VFP itself
-    MOV r0,#0x40000000
-    // FPEXC = r0
-    FMXR FPEXC, r0
-
-    //Enable SMP
-    //mrc p15, 0, r0, c1, c0,  1
-    //orr r0, r0, #ACTLR_SMP
-    //mcr p15, 0, r0, c1, c0,  1
-
     // The c-startup function which we never return from. This function will
     // initialise the ro data section (most things that have the const
     // declaration) and initialise the bss section variables to 0 (generally
