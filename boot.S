@@ -108,14 +108,6 @@ _reset_:
     //orr r0, r0, #ACTLR_SMP
     //mcr p15, 0, r0, c1, c0,  1
 
-#define USE_L1I 1
-#ifdef USE_L1I
-    //L1 instruction cache,
-    mrc p15, 0, r0, c1, c0,  0
-    orr r0, r0, #SCTLR_I
-    mcr p15, 0, r0, c1, c0,  0
-#endif
-
     // The c-startup function which we never return from. This function will
     // initialise the ro data section (most things that have the const
     // declaration) and initialise the bss section variables to 0 (generally

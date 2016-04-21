@@ -116,7 +116,7 @@ namespace mmu {
         // enable MMU and D/L2 cache in SCTLR
         uint32_t mode;
         asm volatile ("mrc p15, 0, %0, c1, c0, 0" : "=r" (mode));
-        mode |= (SCTLR_M | SCTLR_C | SCTLR_AFE);
+        mode |= (SCTLR_M | SCTLR_C | SCTLR_I | SCTLR_AFE);
         asm volatile ("mcr p15, 0, %0, c1, c0, 0" :: "r" (mode) : "memory");
     }
 };
