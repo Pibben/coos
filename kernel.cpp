@@ -15,6 +15,10 @@
 #include "smp.h"
 #include "fpu.h"
 
+void coreTest(void* arg) {
+    int num = uint32_t(arg);
+    printf("%d\n", num);
+}
 
 #if defined(__cplusplus)
 extern "C"
@@ -26,6 +30,8 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     (void) atags;
 
     auto& system = System::instance();
+
+    _enable_interrupts();
 
     system.uart().write("Low level print OK!\r\n", 22);
 
@@ -94,6 +100,10 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     }
     printf("Buzy loop %lu us.\r\n", system.systemTimer1().getValue()-t);
+
+    smp::start_core(1, (smp::start_fn_t)coreTest, (void *)1);
+    smp::start_core(2, (smp::start_fn_t)coreTest, (void *)2);
+    smp::start_core(3, (smp::start_fn_t)coreTest, (void *)3);
 
     while ( true );
 }

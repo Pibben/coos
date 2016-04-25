@@ -80,6 +80,7 @@ namespace mmu {
         //Mailboxes at 0x40000000
         page_table[base] = base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_XN | MMU_L1_SEC_DEVICE |
                                                                                                MMU_L1_SEC_AP;
+        ++base;
 
         // unused up to 0x7FFFFFFF
         for (; base < 2048; base++) {

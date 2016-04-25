@@ -110,65 +110,46 @@ irq_handler:
     pop  {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
     subs pc,lr,#4
 
-.global park_cpus
-park_cpus:
-    LDR R0,=0x4000008C
-    LDR R1,=_CPU_CORE_1_INIT
-    STR R1,[R0,#0x10]
-    LDR R1,=_CPU_CORE_2_INIT
-    STR R1,[R0,#0x20]
-    LDR R1,=_CPU_CORE_3_INIT
-    STR R1,[R0,#0x30]
+// core wakes up here, set stack and call core_main
+.global core_wakeup
+core_wakeup:
+	// get core ID
+	mrc	p15,0,r0,c0,c0,5
+	and	r0, #3
 
-    mov pc, lr
+	// get stack
+	ldr	r1, =stacks
+	ldr	sp, [r1, r0, lsl #2]
 
-_CPU_CORE_1_INIT:
-    //Set up core 1
-    MRC p15,0,r0,c1,c0,0
-    ORR r0,#0x0004 // L1D/L2
-    ORR r0,#0x0800 // BP
-    ORR r0,#0x1000 // L1I
-    MCR p15,0,r0,c1,c0,0
-    MRC p15,0,r0,c1,c0,2
-    ORR r0,#0x300000
-    ORR r0,#0xC00000
-    MCR p15,0,r0,c1,c0,2
-    MOV r0,#0x40000000
-    VMSR fpexc,r0
-    LDR SP,=#(80 * 1024 * 1024)
-_CPU_1_DO_STUFF:
-    B _CPU_1_DO_STUFF
+	// Call kernel_main
+    ldr     r3, =core_main
+    blx      r3
+  //  bl core_main
 
-_CPU_CORE_2_INIT:
-    //Set up core 2
-    MRC p15,0,r0,c1,c0,0
-    ORR r0,#0x0004
-    ORR r0,#0x0800
-    ORR r0,#0x1000
-    MCR p15,0,r0,c1,c0,0
-    MRC p15,0,r0,c1,c0,2
-    ORR r0,#0x300000
-    ORR r0,#0xC00000
-    MCR p15,0,r0,c1,c0,2
-    MOV r0,#0x40000000
-    VMSR fpexc,r0
-    LDR SP,=#(96 * 1024 * 1024) //Must be unique for CPU2
-_CPU_2_DO_STUFF:
-    B _CPU_2_DO_STUFF
+	// busy loop
+1:	b	1b
 
-_CPU_CORE_3_INIT:
-    //Set up core 3
-    MRC p15,0,r0,c1,c0,0
-    ORR r0,#0x0004
-    ORR r0,#0x0800
-    ORR r0,#0x1000
-    MCR p15,0,r0,c1,c0,0
-    MRC p15,0,r0,c1,c0,2
-    ORR r0,#0x300000
-    ORR r0,#0xC00000
-    MCR p15,0,r0,c1,c0,2
-    MOV r0,#0x40000000
-    VMSR fpexc,r0
-    LDR SP,=#(112 * 1024 * 1024) //Must be unique for CPU3
-_CPU_3_DO_STUFF:
-    B _CPU_3_DO_STUFF
+
+//TODO: Remove stack from binary
+.section ".data"
+	.align 2
+	.global stacks
+stacks:	.word stack0
+	.word stack1
+	.word stack2
+	.word stack3
+
+.section ".bss"
+	.align 12
+	.fill 16384, 1, 0
+	.global stack0
+stack0:
+	.fill 16384, 1, 0
+	.global stack1
+stack1:
+	.fill 16384, 1, 0
+	.global stack2
+stack2:
+	.fill 16384, 1, 0
+	.global stack3
+stack3:

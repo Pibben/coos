@@ -72,3 +72,18 @@ void Uart::write(const char* buffer, size_t size)
     for ( size_t i = 0; i < size; i++ )
         uart_putc(buffer[i]);
 }
+
+void Uart::write(const char* buffer)
+{
+    write(buffer, strlen(buffer));
+}
+
+void Uart::writeU32(uint32_t x) {
+    static const char HEX[] = "0123456789ABCDEF";
+    char buf[] = "0x00000000";
+    char *p = &buf[2];
+    for(int i = 28; i >= 0; i -= 4) {
+        *p++ = HEX[(x >> i) % 16];
+    }
+    write(buf, 10);
+}
