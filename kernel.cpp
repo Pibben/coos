@@ -87,7 +87,6 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     ev.runOne();
 
     mmu::enable();
-    //smp::parkCpus();
 
     MD5 md5;
     uint32_t t = system.systemTimer1().getValue();
