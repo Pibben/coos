@@ -105,6 +105,8 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     smp::start_core(2, (smp::start_fn_t)coreTest, (void *)2);
     smp::start_core(3, (smp::start_fn_t)coreTest, (void *)3);
 
+    System::instance().uart().enableLocking();
+
     while ( true );
 }
 
