@@ -7,3 +7,4 @@ C++ Open Operating System
 * https://www.olimex.com/wiki/Bare_Metal_programming_A13
 * https://linux-sunxi.org/Main_Page (Allwinner)
 * https://github.com/metro94/s5p6818_bootloader
+* http://wiki.friendlyarm.com/wiki/images/8/8b/SEC_S5P6818X_Users_Manual_preliminary_Ver_0.00.pdf
