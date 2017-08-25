@@ -23,13 +23,14 @@ set( CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
 
 set(SOURCE_FILES
     boot.S
+    contextSwitch.S
     cboot.c
         clib.cpp
     kernel.cpp
     reg.h
         uart.cpp
     uart.h
-        interrupts.cpp timer.h timer.cpp interrupts.h system.h eventloop.h concurrency.h md5.cpp md5.h mmu.cpp mmu.h smp.cpp smp.h fpu.cpp fpu.h)
+        interrupts.cpp timer.h timer.cpp interrupts.h system.h eventloop.h concurrency.h md5.cpp md5.h mmu.cpp mmu.h smp.cpp smp.h fpu.cpp fpu.h process.cpp process.h ProcessTable.cpp ProcessTable.h)
 
 add_executable(kernel.elf ${SOURCE_FILES})
 

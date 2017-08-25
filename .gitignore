@@ -1,0 +1,10 @@
+*.o
+*~
+*.elf
+*.img
+CMakeCache.txt
+CMakeFiles
+*.map
+.idea
+cmake_install.cmake
+

@@ -88,6 +88,12 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     mmu::enable();
 
+    smp::start_core(1, (smp::start_fn_t)coreTest, (void *)1);
+    smp::start_core(2, (smp::start_fn_t)coreTest, (void *)2);
+    smp::start_core(3, (smp::start_fn_t)coreTest, (void *)3);
+
+    System::instance().uart().enableLocking();
+
     MD5 md5;
     uint32_t t = system.systemTimer1().getValue();
     md5.update((unsigned char*)0x0, 1024*1024*2);
@@ -99,12 +105,6 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     }
     printf("Buzy loop %lu us.\r\n", system.systemTimer1().getValue()-t);
-
-    smp::start_core(1, (smp::start_fn_t)coreTest, (void *)1);
-    smp::start_core(2, (smp::start_fn_t)coreTest, (void *)2);
-    smp::start_core(3, (smp::start_fn_t)coreTest, (void *)3);
-
-    System::instance().uart().enableLocking();
 
     while ( true );
 }
