@@ -5,15 +5,18 @@ C++ Open Operating System
 
 ### Raspberry Pi
 * https://github.com/dwelch67/raspberrypi
+* https://github.com/naums/raspberrypi
 * https://github.com/klange/toaru-rpi/tree/master/kernel/arch/rpi
 * https://github.com/BrianSidebotham/arm-tutorial-rpi
 * https://github.com/arobenko/embxx_on_rpi
 * https://github.com/mrvn/test
 * https://github.com/mrvn/raspbootin
+* https://github.com/naums/raspbootin
 * https://github.com/jncronin/rpi-boot/
 * https://github.com/hendrixjl/PiBareMetal
 * https://github.com/hendrixjl/rPi
 * https://movr0.com/2015/10/15/how-to-jtag-raspberry-pi-2-without-custom-kernel/
+* https://github.com/naums/PiOS
 
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
