@@ -18,6 +18,7 @@ C++ Open Operating System
 * https://movr0.com/2015/10/15/how-to-jtag-raspberry-pi-2-without-custom-kernel/
 * https://github.com/naums/PiOS
 * https://github.com/PeterLemon/RaspberryPi (Julia fractal SMP et.c.)
+* https://github.com/brianwiddas/pi-baremetal
 
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
