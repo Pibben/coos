@@ -28,7 +28,9 @@ C++ Open Operating System
 * https://www.olimex.com/wiki/Bare_Metal_programming_A13
 * https://linux-sunxi.org/Main_Page (Allwinner)
 * https://github.com/arobenko/embxx
+* https://www.ece.umd.edu/class/enee447.S2016/ARM-Documentation/ARM_architecture_reference_manual.pdf (D7.3 locks et.c.)
 
 ### General OS
 * https://github.com/xinu-os/xinu/blob/master/system/arch/arm/ctxsw.S
 * https://kukuruku.co/post/multitasking-management-in-the-operating-system-kernel/
+* https://github.com/JustSid/Firedrake
