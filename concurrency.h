@@ -2,8 +2,8 @@
 // Created by per on 2016-04-10.
 //
 
-#ifndef KERNEL_CONCURRENCY_H_H
-#define KERNEL_CONCURRENCY_H_H
+#ifndef CONCURRENCY_H
+#define CONCURRENCY_H
 
 #include <stdint.h>
 #include "interrupts.h"
@@ -45,4 +45,5 @@ public:
 };
 
 
-#endif //KERNEL_CONCURRENCY_H_H
+
+#endif //CONCURRENCY_H
