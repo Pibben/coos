@@ -35,6 +35,21 @@ public:
     }
 };
 
+class SpinLock {
+private:
+    volatile uint32_t mLockValue;
+public:
+    SpinLock() : mLockValue(0) {}
+
+    void lock() {
+        while (__sync_lock_test_and_set(&mLockValue, 1) == 1) { }
+    }
+
+    void unlock() {
+        __sync_lock_release(&mLockValue);
+    }
+};
+
 class WaitCond { //TODO: Rename
 public:
     void wait(InterruptLock& lock) {

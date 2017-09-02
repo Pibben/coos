@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdint.h>
+#include "concurrency.h"
 
 #ifndef UART_H
 #define UART_H
@@ -7,7 +8,7 @@
 class Uart {
 private:
     bool mUseLock;
-    volatile int write_lock;
+    SpinLock mLock;
 public:
     Uart();
 

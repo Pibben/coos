@@ -9,7 +9,7 @@ static inline void delay(int32_t count)
     : : [count]"r"(count) : "cc");
 }
 
-Uart::Uart() : mUseLock(false), write_lock(0)
+Uart::Uart() : mUseLock(false)
 {
     // Disable UART0.
     REG(UART0_CR) = 0x00000000;
@@ -69,13 +69,13 @@ static unsigned char uart_getc()
 
 void Uart::write(const char* buffer, size_t size) {
     if (mUseLock) {
-        while (__sync_lock_test_and_set(&write_lock, 1) == 1) { }
+        mLock.lock();
     }
     for (size_t i = 0; i < size; i++) {
         uart_putc(buffer[i]);
     }
     if(mUseLock) {
-        __sync_lock_release(&write_lock);
+        mLock.unlock();
     }
 }
 
