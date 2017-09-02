@@ -23,14 +23,14 @@ public:
     template <class TFunc>
     void post(TFunc&& func) {
         mLock.lock();
-        mQueue.push_back(std::move<TFunc>(func));
+        mQueue.push_back(std::forward<TFunc>(func));
         mLock.unlock();
     }
 
     template <class TFunc>
     void postIntr(TFunc&& func) {
         mLock.lockIntr();
-        mQueue.push_back(std::move<TFunc>(func));
+        mQueue.push_back(std::forward<TFunc>(func));
         mLock.unlockIntr();
     }
 
