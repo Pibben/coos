@@ -31,7 +31,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     auto& system = System::instance();
 
-    _enable_interrupts();
+    enable_interrupts();
 
     system.uart().write("Low level print OK!\r\n", 22);
 

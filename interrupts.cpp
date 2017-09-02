@@ -15,6 +15,13 @@ void disable_Basic_IRQs(uint32_t irqs) {
     REG(DISABLE_BASIC_IRQS) = irqs;
 }
 
+void enable_interrupts() {
+    asm volatile ("cpsie i");
+}
+void disable_interrupts() {
+    asm volatile ("cpsid i");
+}
+
 extern "C"
 void interruptHandler()
 {
@@ -26,3 +33,4 @@ void interruptHandler()
         System::instance().systemTimer3().handleTimerInterrupt();
     }
 }
+

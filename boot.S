@@ -96,14 +96,6 @@ halt:
     wfe
     b halt
 
-_enable_interrupts:
-    cpsie   i
-    mov     pc, lr
-
-_disable_interrupts:
-    cpsid   i
-    mov     pc, lr
-
 irq_handler:
     push {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
     bl interruptHandler

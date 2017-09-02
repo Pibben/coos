@@ -19,7 +19,7 @@ void ArmTimer::enableTimer(uint32_t value) {
                          ARMTIMER_CTRL_INT_ENABLE |
                          ARMTIMER_CTRL_PRESCALE_256;
 
-    _enable_interrupts();
+    enable_interrupts();
 }
 
 void ArmTimer::disableTimer() {
@@ -43,7 +43,7 @@ void SystemTimer::enableTimer(uint32_t value) {
 
     REG(SYSTEM_TIMER_C0+mTimerIdx*4) = REG(SYSTEM_TIMER_CLO) + value;
 
-    _enable_interrupts();
+    enable_interrupts();
 }
 
 void SystemTimer::disableTimer() {
