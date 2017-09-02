@@ -11,7 +11,9 @@ namespace smp {
 
     typedef void (*start_fn_t)(void *);
     // wake up the additional cores
-    void start_core(int core, start_fn_t start, void *arg);
+    void start_core(int core);
+    void run(int core, start_fn_t fun, void* arg);
+    uint_fast8_t getCoreId();
 };
 
 #endif //KERNEL_SMP_H

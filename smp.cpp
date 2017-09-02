@@ -30,44 +30,60 @@ namespace smp {
     }
 
     // Multiprocessor Affinity Register (MPIDR)
-    uint32_t get_mpidr(void) {
+    uint_fast8_t getCoreId() {
         uint32_t mpidr;
         asm volatile ("mrc p15,0,%0,c0,c0,5" : "=r" (mpidr));
-        return mpidr;
+        return mpidr & 0x3;
     }
 
     extern "C" {
     void core_main(void);
     }
 
-    static start_fn_t start_fn;
-    void *start_arg;
     volatile bool started;
 
+    volatile static start_fn_t tasks[4];
+    static void* taskArgs[4];
+
+    static inline void delay(int32_t count)
+    {
+        asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
+        : : [count]"r"(count) : "cc");
+    }
+
+    void nullTask(void) {
+        uint_fast8_t coreId = getCoreId();
+        while(true) {
+            if (tasks[coreId]) {
+                tasks[coreId](taskArgs[coreId]);
+                tasks[coreId] = nullptr;
+            }
+        }
+    }
+
     void core_main(void) {
-        System::instance().uart().write("core is up: MPIDR = ");
-        System::instance().uart().writeU32(get_mpidr());
+        System::instance().uart().write("core is up: ID = ");
+        System::instance().uart().writeU32(getCoreId());
         System::instance().uart().write("\n");
         mmu::enable();
         System::instance().uart().write("core is virtual\n");
         FPU::enable();
         printf("core is floating\n");
 
-        start_fn_t temp_fn = start_fn;
-        void *temp_arg = start_arg;
         started = true;
-        temp_fn(temp_arg);
-        // FIXME: make restartable?
-        while (true) { }
+        nullTask();
     }
 
-    void start_core(int core, start_fn_t start, void *arg) {
-        start_fn = start;
-        start_arg = arg;
+    void start_core(int core) {
         printf("starting core %c\n", "0123"[core]);
         started = false;
         *mailbox(core) = core_wakeup;
         while (!started) { }
         printf("started core %c\n", "0123"[core]);
+    }
+
+    void run(int core, start_fn_t fun, void* arg) {
+        taskArgs[core] = arg;
+        tasks[core] = fun;
     }
 }

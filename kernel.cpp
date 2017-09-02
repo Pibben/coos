@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <vector>
 
@@ -16,8 +17,9 @@
 #include "fpu.h"
 
 void coreTest(void* arg) {
-    int num = uint32_t(arg);
-    printf("%d\n", num);
+    char str[] = "Hello from X\n";
+    str[strlen(str)-2] = smp::getCoreId()+'0';
+    System::instance().uart().write(str);
 }
 
 #if defined(__cplusplus)
@@ -88,11 +90,15 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     mmu::enable();
 
-    smp::start_core(1, (smp::start_fn_t)coreTest, (void *)1);
-    smp::start_core(2, (smp::start_fn_t)coreTest, (void *)2);
-    smp::start_core(3, (smp::start_fn_t)coreTest, (void *)3);
+    smp::start_core(1);
+    smp::start_core(2);
+    smp::start_core(3);
 
-    System::instance().uart().enableLocking();
+    System::instance().uart().enableLocking(); //All cores must have mmu/cache (?) before enabling lock
+
+    smp::run(1, coreTest, (void *) 1);
+    smp::run(2, coreTest, (void *) 2);
+    smp::run(3, coreTest, (void *) 3);
 
     MD5 md5;
     uint32_t t = system.systemTimer1().getValue();
