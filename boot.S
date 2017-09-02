@@ -125,7 +125,7 @@ core_wakeup:
 .section ".data"
 	.align 2
 	.global stacks
-stacks:	.word 0x03C00000 // 60MB
+stacks:	.word 0x03B00000 // 59MB
+	.word 0x03C00000
 	.word 0x03D00000
 	.word 0x03E00000
-	.word 0x03F00000
