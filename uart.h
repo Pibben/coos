@@ -7,7 +7,7 @@
 class Uart {
 private:
     bool mUseLock;
-    int write_lock;
+    volatile int write_lock;
 public:
     Uart();
 

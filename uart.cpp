@@ -9,7 +9,7 @@ static inline void delay(int32_t count)
     : : [count]"r"(count) : "cc");
 }
 
-Uart::Uart() : mUseLock(false)
+Uart::Uart() : mUseLock(false), write_lock(0)
 {
     // Disable UART0.
     REG(UART0_CR) = 0x00000000;
