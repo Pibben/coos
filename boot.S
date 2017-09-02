@@ -130,26 +130,10 @@ core_wakeup:
 1:	b	1b
 
 
-//TODO: Remove stack from binary
 .section ".data"
 	.align 2
 	.global stacks
-stacks:	.word stack0
-	.word stack1
-	.word stack2
-	.word stack3
-
-.section ".bss"
-	.align 12
-	.fill 16384, 1, 0
-	.global stack0
-stack0:
-	.fill 16384, 1, 0
-	.global stack1
-stack1:
-	.fill 16384, 1, 0
-	.global stack2
-stack2:
-	.fill 16384, 1, 0
-	.global stack3
-stack3:
+stacks:	.word 0x03C00000 // 60MB
+	.word 0x03D00000
+	.word 0x03E00000
+	.word 0x03F00000
