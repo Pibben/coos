@@ -19,6 +19,11 @@ C++ Open Operating System
 * https://github.com/naums/PiOS
 * https://github.com/PeterLemon/RaspberryPi (Julia fractal SMP et.c.)
 * https://github.com/brianwiddas/pi-baremetal
+* https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2836/QA7_rev3.4.pdf
+* http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0464f/index.html Cortex-A7 MPCore Technical Reference Manual
+* http://infocenter.arm.com/help/topic/com.arm.doc.ddi0464f/DDI0464F_cortex_a7_mpcore_r0p5_trm.pdf -""-
+* http://liris.cnrs.fr/~mmrissa/lib/exe/fetch.php?media=armv7-a-r-manual.pdf
+
 
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
