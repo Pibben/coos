@@ -84,6 +84,7 @@ public:
     T* listPopFront(List* list) {
         T* retval = listFront(list);
         unlink(list);
+        return retval;
     }
 
     size_t size() { return mTable.size(); }
