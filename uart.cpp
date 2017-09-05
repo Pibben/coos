@@ -1,13 +1,9 @@
 #include "uart.h"
 #include "reg.h"
+#include "utils.h"
 #include <string.h>
 
-/* Loop <delay> times in a way that the compiler won't optimize away. */
-static inline void delay(int32_t count)
-{
-    asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
-    : : [count]"r"(count) : "cc");
-}
+
 
 Uart::Uart() : mUseLock(false)
 {
@@ -17,11 +13,11 @@ Uart::Uart() : mUseLock(false)
     
     // Disable pull up/down for all GPIO pins & delay for 150 cycles.
     REG(GPPUD) = 0x00000000;
-    delay(150);
+    Util::delay(150);
     
     // Disable pull up/down for pin 14,15 & delay for 150 cycles.
     REG(GPPUDCLK0) = (1 << 14) | (1 << 15);
-    delay(150);
+    Util::delay(150);
     
     // Write 0 to GPPUDCLK0 to make it take effect.
     REG(GPPUDCLK0) = 0x00000000;
