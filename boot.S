@@ -97,10 +97,10 @@ halt:
     b halt
 
 irq_handler:
-    push {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
+    sub lr, lr, #4
+    stmfd sp!, {r0-r3, lr}
     bl interruptHandler
-    pop  {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
-    subs pc,lr,#4
+    ldmfd sp!, {r0-r3, pc}^
 
 // core wakes up here, set stack and call core_main
 .global core_wakeup
