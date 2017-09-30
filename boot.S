@@ -58,12 +58,13 @@ _reset_:
     // We enter execution in supervisor mode. For more information on
     // processor modes see ARM Section A2.2 (Processor Modes)
 
+    // Copy vectors from entry (0x8000) to vector start (0x0000)
     mov     r0, #0x8000
     mov     r1, #0x0000
-    ldmia   r0!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    stmia   r1!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    ldmia   r0!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    stmia   r1!,{r2, r3, r4, r5, r6, r7, r8, r9}
+    ldmia   r0!,{r4, r5, r6, r7, r8, r9, r10, r11}
+    stmia   r1!,{r4, r5, r6, r7, r8, r9, r10, r11}
+    ldmia   r0!,{r4, r5, r6, r7, r8, r9, r10, r11}
+    stmia   r1!,{r4, r5, r6, r7, r8, r9, r10, r11}
 
     // We're going to use interrupt mode, so setup the interrupt mode
     // stack pointer which differs to the application stack pointer:
