@@ -16,6 +16,16 @@ static inline void delay(uint32_t count)
         __asm__ __volatile__("");
     }
 }
+
+template<class=void>
+uint32_t valueBuilder(uint32_t value) {
+    return value;
+}
+
+template<class=void, class... Tail>
+uint32_t valueBuilder(uint32_t value, uint_fast8_t bit, Tail... tail) {
+    value |= (1 << bit);
+    return valueBuilder<Tail...>(value, tail...);
 }
 
 };//ns

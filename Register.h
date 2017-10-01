@@ -1,16 +1,6 @@
 #include <cstdint>
 
 class Register {
-private:
-    template<class=void>
-    uint32_t valueBuilder(uint32_t value) {
-        return value;
-    }
-    template<class=void, class... Tail>
-    uint32_t valueBuilder(uint32_t value, uint_fast8_t bit, Tail... tail) {
-        value |= (1 << bit);
-        return valueBuilder<Tail...>(value, tail...);
-    }
 public:
     Register(uintptr_t address) : mAddress((uint32_t*)address) {
     }
@@ -37,18 +27,18 @@ public:
     }
     template<class... Ts>
     void set(uint_fast8_t bit, Ts... bits) {
-        *mAddress |= valueBuilder<Ts...>(0, bit, bits...);
+        *mAddress |= Util::valueBuilder<Ts...>(0, bit, bits...);
     }
     void set() {
         *mAddress = 0xffffffff;
     }
     template<class... Ts>
     void setOnly(uint_fast8_t bit, Ts... bits) {
-        *mAddress = valueBuilder<Ts...>(0, bit, bits...);
+        *mAddress = Util::valueBuilder<Ts...>(0, bit, bits...);
     }
     template<class...Ts>
     void clear(uint_fast8_t bit, Ts... bits) {
-        *mAddress &= ~valueBuilder<Ts...>(0, bit, bits...);
+        *mAddress &= ~Util::valueBuilder<Ts...>(0, bit, bits...);
     }
     void clear() {
         *mAddress = 0;
