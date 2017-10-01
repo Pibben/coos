@@ -10,10 +10,12 @@
 namespace Util {
 
 /* Loop <delay> times in a way that the compiler won't optimize away. */
-static inline void delay(int32_t count)
+static inline void delay(uint32_t count)
 {
-    asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
-    : : [count]"r"(count) : "cc");
+    while(count--) {
+        __asm__ __volatile__("");
+    }
+}
 }
 
 };//ns
