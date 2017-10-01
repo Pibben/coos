@@ -52,12 +52,12 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     class StaticTest {
     public:
         uint32_t mValue = 0x1234;
-        StaticTest() {
-            mValue = 0x4711;
+        StaticTest(uint32_t value) {
+            mValue = value;
         }
     };
 
-    static StaticTest st;
+    static StaticTest st(0x4711);
 
     if(st.mValue == 0x4711) {
         printf("Static object OK\r\n");
