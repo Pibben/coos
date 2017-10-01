@@ -24,12 +24,6 @@ enum
     PERIPHERAL_BASE = 0x3f000000,
     GPIO_BASE = 0x3f200000,
 
-    // Controls actuation of pull up/down to ALL GPIO pins.
-    GPPUD = (GPIO_BASE + 0x94),
-    
-    // Controls actuation of pull up/down for specific GPIO pin.
-    GPPUDCLK0 = (GPIO_BASE + 0x98),
-
     SYSTEM_TIMER_BASE = (PERIPHERAL_BASE + 0x3000),
     SYSTEM_TIMER_CS = (SYSTEM_TIMER_BASE + 0x00),
     SYSTEM_TIMER_CLO = (SYSTEM_TIMER_BASE + 0x04),

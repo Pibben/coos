@@ -2,6 +2,7 @@
 #include "reg.h"
 #include "utils.h"
 #include "Register.h"
+#include "Gpio.h"
 #include <string.h>
 
 static const uint32_t UART0_BASE = GPIO_BASE + 0x1000;
@@ -51,18 +52,8 @@ Uart::Uart() : mUseLock(false)
     // Disable UART0.
     cr.clear();
     // Setup the GPIO pin 14 && 15.
-    
-    // Disable pull up/down for all GPIO pins & delay for 150 cycles.
-    REG(GPPUD) = 0x00000000;
-    Util::delay(150);
-    
-    // Disable pull up/down for pin 14,15 & delay for 150 cycles.
-    REG(GPPUDCLK0) = (1 << 14) | (1 << 15);
-    Util::delay(150);
-    
-    // Write 0 to GPPUDCLK0 to make it take effect.
-    REG(GPPUDCLK0) = 0x00000000;
-    
+    Gpio::disablePullupAndPulldown(14,15);
+
     // Clear pending interrupts.
     icr.write(0x7FF);
     
