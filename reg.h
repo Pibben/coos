@@ -63,28 +63,6 @@ enum
     ARMTIMER_RELOAD = (ARMTIMER_BASE + 0x18),
     ARMTIMER_PREDIVIDER = (ARMTIMER_BASE + 0x1C),
     ARMTIMER_COUNTER = (ARMTIMER_BASE + 0x20),
-
-
-    UART0_BASE = GPIO_BASE + 0x1000,
-    
-    UART0_DR     = (UART0_BASE + 0x00),
-    UART0_RSRECR = (UART0_BASE + 0x04),
-    UART0_FR     = (UART0_BASE + 0x18),
-    UART0_ILPR   = (UART0_BASE + 0x20),
-    UART0_IBRD   = (UART0_BASE + 0x24),
-    UART0_FBRD   = (UART0_BASE + 0x28),
-    UART0_LCRH   = (UART0_BASE + 0x2C),
-    UART0_CR     = (UART0_BASE + 0x30),
-    UART0_IFLS   = (UART0_BASE + 0x34),
-    UART0_IMSC   = (UART0_BASE + 0x38),
-    UART0_RIS    = (UART0_BASE + 0x3C),
-    UART0_MIS    = (UART0_BASE + 0x40),
-    UART0_ICR    = (UART0_BASE + 0x44),
-    UART0_DMACR  = (UART0_BASE + 0x48),
-    UART0_ITCR   = (UART0_BASE + 0x80),
-    UART0_ITIP   = (UART0_BASE + 0x84),
-    UART0_ITOP   = (UART0_BASE + 0x88),
-    UART0_TDR    = (UART0_BASE + 0x8C),
 };
 
 //SYSTEM_TIMER_CS
@@ -111,7 +89,7 @@ enum {
 enum {
 
 /** @brief 0 : 16-bit counters - 1 : 23-bit counter */
-    RMTIMER_CTRL_16BIT = ( 0 << 1 ),
+    ARRMTIMER_CTRL_16BIT = ( 0 << 1 ),
     ARMTIMER_CTRL_23BIT = ( 1 << 1 ),
 
     ARMTIMER_CTRL_PRESCALE_1   = ( 0 << 2 ),
@@ -128,54 +106,6 @@ enum {
 
     ARMTIMER_CTRL_CNTR_DISABLE = (0 << 9),
     ARMTIMER_CTRL_CNTR_ENABLE = (1 << 9),
-};
-
-//UART0_LCRH
-enum {
-    UART0_STICK_PARITY = (1 << 7),
-    UART0_WORLD_LENGTH_5 = (0 << 5),
-    UART0_WORLD_LENGTH_6 = (1 << 5),
-    UART0_WORLD_LENGTH_7 = (2 << 5),
-    UART0_WORLD_LENGTH_8 = (3 << 5),
-    UART0_ENABLE_FIFOS = (1 << 4),
-    UART0_TWO_STOP_BITS = (1 << 3),
-    UART0_EVEN_PARITY = (1 << 2),
-    UART0_ENABLE_PARITY = (1 << 1),
-    UART0_SEND_BREAK = (1 << 0)
-};
-
-//UART0_IMSC
-enum {
-    UART0_OVERRUN_INT_MASK = (1 << 10),
-    UART0_BREAK_INT_MASK = (1 << 9),
-    UART0_PARITY_INT_MASK = (1 << 8),
-    UART0_FRAMING_INT_MASK = (1 << 7),
-    UART0_TIMEOUT_INT_MASK = (1 << 6),
-    UART0_TRANSMIT_INT_MASK = (1 << 5),
-    UART0_RECEIVE_INT_MASK = (1 << 4),
-    UART0_CTS_INT_MASK = (1 << 1),
-    UART0_ALL_INT_MASK = 0b11111110010
-};
-
-//UART0_CR
-enum {
-    UART0_CTS_ENABLE = (1 << 15),
-    UART0_RTS_ENABLE = (1 << 14),
-    UART0_RTS = (1 << 11),
-    UART0_RECEIVE_ENABLE = (1 << 9),
-    UART0_TRANSMIT_ENABLE = (1 << 8),
-    UART0_LOOPBACK_ENABLE = (1 << 7),
-    UART0_UART_ENABLE = (1 << 0)
-};
-
-//UART0_FR
-enum {
-    UART0_TX_FIFO_EMPTY = (1 << 7),
-    UART0_RX_FIFO_FULL = (1 << 6),
-    UART0_TX_FIFO_FULL = (1 << 5),
-    UART0_RX_FIFO_EMPTY = (1 << 4),
-    UART0_BUSY = (1 << 3),
-    UART0_CTS = (1 << 0)
 };
 
 #define REG(reg) (*(volatile uint32_t *)(reg))

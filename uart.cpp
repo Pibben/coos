@@ -1,14 +1,55 @@
 #include "uart.h"
 #include "reg.h"
 #include "utils.h"
+#include "Register.h"
 #include <string.h>
 
+static const uint32_t UART0_BASE = GPIO_BASE + 0x1000;
 
+static Register dr    (UART0_BASE + 0x00);
+static Register fr    (UART0_BASE + 0x18);
+static Register ibrd  (UART0_BASE + 0x24);
+static Register fbrd  (UART0_BASE + 0x28);
+static Register lcrh  (UART0_BASE + 0x2C);
+static Register cr    (UART0_BASE + 0x30);
+static Register imsc  (UART0_BASE + 0x38);
+static Register icr   (UART0_BASE + 0x44);
+
+enum {
+    LCRH_SEND_BREAK,
+    LCRH_ENABLE_PARITY,
+    LCRH_EVEN_PARITY,
+    LCRH_TWO_STOP_BITS,
+    LCRH_ENABLE_FIFOS,
+    LCRH_WORLD_LENGTH,
+    LCRH_STICK_PARITY = 7
+};
+
+enum {
+    CR_UART_ENABLE,
+    CR_LOOPBACK_ENABLE = 7,
+    CR_TRANSMIT_ENABLE,
+    CR_RECEIVE_ENABLE,
+    CR_RTS = 11,
+    CR_RTS_ENABLE = 14,
+    CR_CTS_ENABLE = 15
+};
+
+enum {
+    IMSC_CTS_INT_MASK = 1,
+    IMSC_RECEIVE_INT_MASK = 4,
+    IMSC_TRANSMIT_INT_MASK,
+    IMSC_TIMEOUT_INT_MASK,
+    IMSC_FRAMING_INT_MASK,
+    IMSC_PARITY_INT_MASK,
+    IMSC_BREAK_INT_MASK,
+    IMSC_OVERRUN_INT_MASK,
+};
 
 Uart::Uart() : mUseLock(false)
 {
     // Disable UART0.
-    REG(UART0_CR) = 0x00000000;
+    cr.clear();
     // Setup the GPIO pin 14 && 15.
     
     // Disable pull up/down for all GPIO pins & delay for 150 cycles.
@@ -23,7 +64,7 @@ Uart::Uart() : mUseLock(false)
     REG(GPPUDCLK0) = 0x00000000;
     
     // Clear pending interrupts.
-    REG(UART0_ICR) = 0x7FF;
+    icr.write(0x7FF);
     
     // Set integer & fractional part of baud rate.
     // Divider = UART_CLOCK/(16 * Baud)
@@ -32,24 +73,26 @@ Uart::Uart() : mUseLock(false)
     
     // Divider = 3000000 / (16 * 115200) = 1.627 = ~1.
     // Fractional part register = (.627 * 64) + 0.5 = 40.6 = ~40.
-    REG(UART0_IBRD) = 1;
-    REG(UART0_FBRD) = 40;
+    ibrd.write(1);
+    fbrd.write(40);
     
     // Enable FIFO & 8 bit data transmission (1 stop bit, no parity).
-    REG(UART0_LCRH) = UART0_ENABLE_FIFOS | UART0_WORLD_LENGTH_8;
+    lcrh.setOnly(LCRH_ENABLE_FIFOS);
+    lcrh.write(3, LCRH_WORLD_LENGTH);
     
     // Mask all interrupts.
-    REG(UART0_IMSC) = UART0_ALL_INT_MASK;
+    imsc.setOnly(IMSC_CTS_INT_MASK, IMSC_RECEIVE_INT_MASK, IMSC_TRANSMIT_INT_MASK, IMSC_TIMEOUT_INT_MASK,
+                 IMSC_FRAMING_INT_MASK, IMSC_PARITY_INT_MASK, IMSC_BREAK_INT_MASK, IMSC_OVERRUN_INT_MASK);
     
     // Enable UART0, receive & transfer part of UART.
-    REG(UART0_CR) = UART0_UART_ENABLE | UART0_TRANSMIT_ENABLE | UART0_RECEIVE_ENABLE;
+    cr.setOnly(CR_UART_ENABLE, CR_TRANSMIT_ENABLE, CR_RECEIVE_ENABLE);
 }
 
 static void uart_putc(char byte)
 {
     // Wait for UART to become ready to transmit.
-    while ( REG(UART0_FR) & (1 << 5) ) { }
-    REG(UART0_DR) = byte;
+    while ( fr.get(5) ) { }
+    dr.write(byte);
 }
 
 #if 0

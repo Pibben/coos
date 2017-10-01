@@ -1,14 +1,12 @@
 #include <cstdint>
 
-void foo();
-
 class Register {
 private:
     template<class=void>
     uint32_t valueBuilder(uint32_t value) {
         return value;
     }
-    template<class T, class... Tail>
+    template<class=void, class... Tail>
     uint32_t valueBuilder(uint32_t value, uint_fast8_t bit, Tail... tail) {
         value |= (1 << bit);
         return valueBuilder<Tail...>(value, tail...);
