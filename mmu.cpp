@@ -10,6 +10,15 @@
 //http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0425/ch04s01s01.html
 //https://github.com/mrvn/test/blob/master/mmu.cc
 
+
+enum {
+    ACTLR_SMP = (1 << 6),
+    SCTLR_M = (1 << 0), //MMU, also enables BP (?)
+    SCTLR_C = (1 << 2), //Data and unified cache. ACTLR_SMP must be enabled.
+    SCTLR_I = (1 << 12), //Instruction cache
+    SCTLR_AFE = (1 << 29),
+};
+
 enum {
     MMU_L1_SEC_IS_SECTION = (2 << 0),
     MMU_L1_SEC_CB_00 = (0 << 2),
