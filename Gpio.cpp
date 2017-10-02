@@ -6,7 +6,9 @@
 #include "reg.h"
 #include "Register.h"
 #include "utils.h"
+#include "system.h"
 
+static const uint32_t GPIO_BASE = System::getPeripheralBase() + 0x200000;
 
 static Register GPPUD    (GPIO_BASE + 0x94); // Controls actuation of pull up/down to ALL GPIO pins.
 static Register GPPUDCLK0(GPIO_BASE + 0x98); // Controls actuation of pull up/down for specific GPIO pin.

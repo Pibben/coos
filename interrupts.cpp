@@ -8,7 +8,7 @@
 #include "system.h"
 #include "Register.h"
 
-static const uint32_t INTERRUPT_CONTROLLER_BASE = (PERIPHERAL_BASE + 0xB200);
+static const uint32_t INTERRUPT_CONTROLLER_BASE = (System::getPeripheralBase() + 0xB200);
 
 
 static Register IRQ_BASIC_PENDING (INTERRUPT_CONTROLLER_BASE + 0x00);
@@ -61,11 +61,11 @@ extern "C"
 void interruptHandler()
 {
     if(IRQ_BASIC_PENDING.get(BASIC_ARM_TIMER_IRQ)) {
-        System::instance().armTimer().handleTimerInterrupt();
+        System::armTimer().handleTimerInterrupt();
     } else if(IRQ_PENDING_1.get(1)) {
-        System::instance().systemTimer1().handleTimerInterrupt();
+        System::systemTimer1().handleTimerInterrupt();
     } else if(IRQ_PENDING_1.get(3)) {
-        System::instance().systemTimer3().handleTimerInterrupt();
+        System::systemTimer3().handleTimerInterrupt();
     }
 }
 

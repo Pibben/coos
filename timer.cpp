@@ -10,7 +10,7 @@
 #include "system.h"
 #include "Register.h"
 
-static const uint32_t ARMTIMER_BASE = (PERIPHERAL_BASE + 0xB400);
+static const uint32_t ARMTIMER_BASE = (System::getPeripheralBase() + 0xB400);
 
 static Register ARMTIMER_LOAD     (ARMTIMER_BASE + 0x00);
 //ARMTIMER_VALUE = (ARMTIMER_BASE + 0x04),
@@ -67,12 +67,12 @@ static void clearIRQ(void) {
 
 void ArmTimer::handleTimerInterrupt() {
     clearIRQ();
-    System::instance().eventloop().postIntr(gTimerCallback);
+    System::eventloop().postIntr(gTimerCallback);
     disableTimer();
 }
 
 
-static const uint32_t SYSTEM_TIMER_BASE = (PERIPHERAL_BASE + 0x3000);
+static const uint32_t SYSTEM_TIMER_BASE = (System::getPeripheralBase() + 0x3000);
 static Register SYSTEM_TIMER_CS  (SYSTEM_TIMER_BASE + 0x00);
 static Register SYSTEM_TIMER_CLO (SYSTEM_TIMER_BASE + 0x04);
 static Register SYSTEM_TIMER_CHI (SYSTEM_TIMER_BASE + 0x08);
@@ -100,7 +100,7 @@ void SystemTimer::disableTimer() {
 
 void SystemTimer::handleTimerInterrupt() {
     SYSTEM_TIMER_CS.set(mTimerIdx);
-    System::instance().eventloop().postIntr(gTimerCallback);
+    System::eventloop().postIntr(gTimerCallback);
     disableTimer();
 }
 

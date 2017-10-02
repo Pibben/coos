@@ -17,15 +17,4 @@ enum {
     CPSR_IRQ = (1 << 7),
 };
 
-enum {
-    // The GPIO registers base address.
-    PERIPHERAL_BASE = 0x3f000000,
-    GPIO_BASE = 0x3f200000,
-
-};
-
-
-
-
-
 #endif

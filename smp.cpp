@@ -62,11 +62,11 @@ namespace smp {
     }
 
     void core_main(void) {
-        System::instance().uart().write("core is up: ID = ");
-        System::instance().uart().writeU32(getCoreId());
-        System::instance().uart().write("\n");
+        System::uart().write("core is up: ID = ");
+        System::uart().writeU32(getCoreId());
+        System::uart().write("\n");
         mmu::enable();
-        System::instance().uart().write("core is virtual\n");
+        System::uart().write("core is virtual\n");
         FPU::enable();
         printf("core is floating\n");
 

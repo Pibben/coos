@@ -19,7 +19,7 @@
 void coreTest(void* arg) {
     char str[] = "Hello from X\n";
     str[strlen(str)-2] = smp::getCoreId()+'0';
-    System::instance().uart().write(str);
+    System::uart().write(str);
 }
 
 #if defined(__cplusplus)
@@ -31,15 +31,15 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     (void) r1;
     (void) atags;
 
-    auto& system = System::instance();
-
     enable_interrupts();
 
-    system.uart().write("Low level print OK!\r\n", 22);
+    System::uart().write("Low level print OK!\r\n", 22);
 
     FPU::enable();
 
     printf("CLib printf OK!\r\n");
+
+    ATAG_Scanner((uint32_t*)atags);
     
     std::vector<int> v;
     v.push_back(4711);
@@ -65,24 +65,24 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         printf("Static object Failed\r\n");
     }
 
-    auto& ev = system.eventloop();
+    auto& ev = System::eventloop();
 
     printf("ARM Timer ");
-    system.armTimer().setTimer(0x400, [] {
+    System::armTimer().setTimer(0x400, [] {
         printf("OK!\r\n");
     });
 
     ev.runOne();
 
     printf("System Timer 0 ");
-    system.systemTimer1().setTimer(1000*1000, [] {
+    System::systemTimer1().setTimer(1000*1000, [] {
         printf("OK!\r\n");
     });
 
     ev.runOne();
 
     printf("System Timer 2 ");
-    system.systemTimer3().setTimer(1000*1000, [] {
+    System::systemTimer3().setTimer(1000*1000, [] {
         printf("OK!\r\n");
     });
 
@@ -94,23 +94,23 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     smp::start_core(2);
     smp::start_core(3);
 
-    System::instance().uart().enableLocking(); //All cores must have mmu/cache (?) before enabling lock
+    System::uart().enableLocking(); //All cores must have mmu/cache (?) before enabling lock
 
     smp::run(1, coreTest, (void *) 1);
     smp::run(2, coreTest, (void *) 2);
     smp::run(3, coreTest, (void *) 3);
 
     MD5 md5;
-    uint32_t t = system.systemTimer1().getValue();
+    uint32_t t = System::systemTimer1().getValue();
     md5.update((unsigned char*)0x0, 1024*1024*2);
     md5.finalize();
-    printf("MD5: [%s] (%lu us)\r\n", md5.hexdigest().c_str(), system.systemTimer1().getValue()-t);
+    printf("MD5: [%s] (%lu us)\r\n", md5.hexdigest().c_str(), System::systemTimer1().getValue()-t);
 
-    t = system.systemTimer1().getValue();
+    t = System::systemTimer1().getValue();
     for(volatile int i = 0; i < 1000*1000; ++i) {
 
     }
-    printf("Buzy loop %lu us.\r\n", system.systemTimer1().getValue()-t);
+    printf("Buzy loop %lu us.\r\n", System::systemTimer1().getValue()-t);
 
     while ( true );
 }

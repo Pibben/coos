@@ -3,9 +3,10 @@
 #include "utils.h"
 #include "Register.h"
 #include "Gpio.h"
+#include "system.h"
 #include <string.h>
 
-static const uint32_t UART0_BASE = GPIO_BASE + 0x1000;
+static const uint32_t UART0_BASE = System::getPeripheralBase() + 0x201000;
 
 static Register dr    (UART0_BASE + 0x00);
 static Register fr    (UART0_BASE + 0x18);

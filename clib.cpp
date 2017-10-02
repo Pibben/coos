@@ -24,7 +24,7 @@ caddr_t _sbrk( int incr )
 extern "C"
 int _write( int file, char *ptr, int len )
 {
-    System::instance().uart().write(ptr, len);
+    System::uart().write(ptr, len);
     
     return len;
 }

@@ -11,37 +11,36 @@
 
 class System {
 private:
-    Eventloop mEventloop;
-    Uart mUart;
-    ArmTimer mArmTimer;
-    SystemTimer mSystemTimer1;
-    SystemTimer mSystemTimer3;
-    System() : mSystemTimer1(1), mSystemTimer3(3) {}
+    static Eventloop mEventloop;
+    static Uart mUart;
+    static ArmTimer mArmTimer;
+    static SystemTimer mSystemTimer1;
+    static SystemTimer mSystemTimer3;
 public:
-    static System& instance() {
-        static System system;
-        return system;
-    }
-
-    Eventloop& eventloop() {
+    static Eventloop& eventloop() {
         return mEventloop;
     }
 
-    Uart& uart() {
+    static Uart& uart() {
         return mUart;
     }
 
-    ArmTimer& armTimer() {
+    static ArmTimer& armTimer() {
         return mArmTimer;
     }
 
-    SystemTimer& systemTimer1() {
+    static SystemTimer& systemTimer1() {
         return mSystemTimer1;
     }
 
-    SystemTimer& systemTimer3() {
+    static SystemTimer& systemTimer3() {
         return mSystemTimer3;
     }
+    static constexpr uint32_t getPeripheralBase() {
+        return 0x3f000000;
+    }
 };
+
+
 
 #endif //KERNEL_SYSTEM_H
