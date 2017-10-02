@@ -46,18 +46,18 @@ enum {
 };
 
 void ArmTimer::enableTimer(uint32_t value) {
-    enableArmTimerInterrupt();
+    cpu::interrupt::enableArmTimer();
 
     ARMTIMER_LOAD.write(value);
 
     ARMTIMER_CTRL.setOnly(ARMTIMER_CTRL_23BIT, ARMTIMER_CTRL_ENABLE, ARMTIMER_CTRL_INT_ENABLE);
     ARMTIMER_CTRL.write(2, ARMTIMER_CTRL_PRESCALE);
 
-    enable_interrupts();
+    cpu::interrupt::enable();
 }
 
 void ArmTimer::disableTimer() {
-    disableArmTimerInterrupt();
+    cpu::interrupt::disableArmTimer();
 }
 
 static void clearIRQ(void) {
@@ -81,7 +81,7 @@ static Register SYSTEM_TIMER_C2  (SYSTEM_TIMER_BASE + 0x14);
 static Register SYSTEM_TIMER_C3  (SYSTEM_TIMER_BASE + 0x18);
 
 void SystemTimer::enableTimer(uint32_t value) {
-    enableSystemTimerInterrupt(mTimerIdx);
+    cpu::interrupt::enableSystemTimer(mTimerIdx);
     SYSTEM_TIMER_CS.set(mTimerIdx);
 
     const uint32_t c0Address = SYSTEM_TIMER_BASE + 0x0c;
@@ -90,11 +90,11 @@ void SystemTimer::enableTimer(uint32_t value) {
 
     timerValueRegister.write(currentValue + value);
 
-    enable_interrupts();
+    cpu::interrupt::enable();
 }
 
 void SystemTimer::disableTimer() {
-    disableSystemTimerInterrupt(mTimerIdx);
+    cpu::interrupt::disableSystemTimer(mTimerIdx);
 }
 
 void SystemTimer::handleTimerInterrupt() {

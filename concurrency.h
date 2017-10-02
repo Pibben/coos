@@ -18,12 +18,12 @@ public:
 
     void lock() {
         __asm volatile("mrs %0, cpsr" : "=r" (mFlags));
-        disable_interrupts();
+        cpu::interrupt::disable();
     }
 
     void unlock() {
         if ((mFlags & CPSR_IRQ) == 0) {
-            enable_interrupts();
+            cpu::interrupt::enable();
         }
     }
 

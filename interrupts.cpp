@@ -22,39 +22,46 @@ static Register DISABLE_IRQS_1    (INTERRUPT_CONTROLLER_BASE + 0x1C);
 //DISABLE_IRQS_2 = (INTERRUPT_CONTROLLER_BASE + 0x20),
 static Register DISABLE_BASIC_IRQS(INTERRUPT_CONTROLLER_BASE + 0x24);
 
+namespace {
 //BASIC IRQs
-enum {
-    BASIC_ARM_TIMER_IRQ,
-    BASIC_ARM_MAILBOX_IRQ,
-    BASIC_ARM_DOORBELL_0_IRQ,
-    BASIC_ARM_DOORBELL_1_IRQ,
-    BASIC_GPU_0_HALTED_IRQ,
-    BASIC_GPU_1_HALTED_IRQ,
-    BASIC_ACCESS_ERROR_1_IRQ,
-    BASIC_ACCESS_ERROR_0_IRQ
-};
-
-void enableArmTimerInterrupt() {
-    ENABLE_BASIC_IRQS.set(BASIC_ARM_TIMER_IRQ);
+    enum {
+        BASIC_ARM_TIMER_IRQ,
+        BASIC_ARM_MAILBOX_IRQ,
+        BASIC_ARM_DOORBELL_0_IRQ,
+        BASIC_ARM_DOORBELL_1_IRQ,
+        BASIC_GPU_0_HALTED_IRQ,
+        BASIC_GPU_1_HALTED_IRQ,
+        BASIC_ACCESS_ERROR_1_IRQ,
+        BASIC_ACCESS_ERROR_0_IRQ
+    };
 }
 
-void disableArmTimerInterrupt() {
-    DISABLE_BASIC_IRQS.set(BASIC_ARM_TIMER_IRQ);
-}
+namespace cpu {
+    namespace interrupt {
+        void enableArmTimer() {
+            ENABLE_BASIC_IRQS.set(BASIC_ARM_TIMER_IRQ);
+        }
 
-void enableSystemTimerInterrupt(uint_fast8_t timerIdx) {
-    ENABLE_IRQS_1.set(timerIdx);
-}
+        void disableArmTimer() {
+            DISABLE_BASIC_IRQS.set(BASIC_ARM_TIMER_IRQ);
+        }
 
-void disableSystemTimerInterrupt(uint_fast8_t timerIdx) {
-    DISABLE_IRQS_1.set(timerIdx);
-}
+        void enableSystemTimer(uint_fast8_t timerIdx) {
+            ENABLE_IRQS_1.set(timerIdx);
+        }
 
-void enable_interrupts() {
-    asm volatile ("cpsie i");
-}
-void disable_interrupts() {
-    asm volatile ("cpsid i");
+        void disableSystemTimer(uint_fast8_t timerIdx) {
+            DISABLE_IRQS_1.set(timerIdx);
+        }
+
+        void enable() {
+            asm volatile ("cpsie i");
+        }
+
+        void disable() {
+            asm volatile ("cpsid i");
+        }
+    }
 }
 
 extern "C"
