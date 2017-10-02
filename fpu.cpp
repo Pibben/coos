@@ -23,7 +23,7 @@ enum {
     FPEXC_EN = (1 << 30),
 };
 
-namespace FPU {
+namespace fpu {
     void enable() {
         uint32_t reg;
 

@@ -6,7 +6,7 @@
 #define KERNEL_FPU_H
 
 
-namespace FPU {
+namespace fpu {
     void enable();
 };
 

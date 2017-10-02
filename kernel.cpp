@@ -35,7 +35,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     System::uart().write("Low level print OK!\r\n", 22);
 
-    FPU::enable();
+    fpu::enable();
 
     printf("CLib printf OK!\r\n");
 
