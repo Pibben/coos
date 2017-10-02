@@ -1,5 +1,4 @@
 #include "uart.h"
-#include "utils.h"
 #include "Register.h"
 #include "Gpio.h"
 #include "system.h"
