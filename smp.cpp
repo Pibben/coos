@@ -64,7 +64,7 @@ namespace smp {
         System::uart().write("core is up: ID = ");
         System::uart().writeU32(getCoreId());
         System::uart().write("\n");
-        mmu::enable();
+        cpu::core::mmu::enable();
         System::uart().write("core is virtual\n");
         cpu::core::fpu::enable();
         printf("core is floating\n");

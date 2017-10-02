@@ -69,63 +69,69 @@ enum {
 };
 
 // MMU_L2_PAGE_IS_SMALL | MMU_l2_PAGE_SMALL_S | MMU_L2_PAGE_OWB_WA_IWB_WA | MMU_L2_PAGE_AP | MMU_L2_PAGES_SMALL_XN
+namespace cpu {
+    namespace core {
+        namespace mmu {
+            static volatile __attribute__ ((aligned (0x4000))) uint32_t page_table[4096];
 
-namespace mmu {
-    static volatile __attribute__ ((aligned (0x4000))) uint32_t page_table[4096];
-    void enable() {
-        uint32_t base;
-        for (base = 0; base < 1024 - 16; base++) {
-            page_table[base] = base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_OWB_WA_IWB_WA |
-                                                                                   MMU_L1_SEC_AP;
+            void enable() {
+                uint32_t base;
+                for (base = 0; base < 1024 - 16; base++) {
+                    page_table[base] = base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_OWB_WA_IWB_WA |
+                                       MMU_L1_SEC_AP;
+                }
+
+                //16 MB peripherals at 0x3F000000
+                for (; base < 1024; base++) {
+                    page_table[base] =
+                            base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_XN | MMU_L1_SEC_DEVICE |
+                            MMU_L1_SEC_AP;
+                }
+
+                //Mailboxes at 0x40000000
+                page_table[base] =
+                        base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_XN | MMU_L1_SEC_DEVICE |
+                        MMU_L1_SEC_AP;
+                ++base;
+
+                // unused up to 0x7FFFFFFF
+                for (; base < 2048; base++) {
+                    page_table[base] = 0;
+                }
+
+                for (; base < 4096; base++) {
+                    page_table[base] = 0;
+                }
+
+                uint32_t auxctrl;
+                asm volatile ("mrc p15, 0, %0, c1, c0,  1" : "=r" (auxctrl));
+                auxctrl |= ACTLR_SMP;
+                asm volatile ("mcr p15, 0, %0, c1, c0,  1"::"r" (auxctrl));
+
+                // setup domains (CP15 c3)
+                // Write Domain Access Control Register
+                // use access permissions from TLB entry
+                asm volatile ("mcr     p15, 0, %0, c3, c0, 0"::"r" (0x55555555));
+
+                // set domain 0 to client
+                asm volatile ("mcr p15, 0, %0, c3, c0, 0"::"r" (1));
+
+                // always use TTBR0
+                asm volatile ("mcr p15, 0, %0, c2, c0, 2"::"r" (0));
+
+                // set TTBR0 (page table walk inner and outer write-back,
+                // write-allocate, cacheable, shareable memory)
+                asm volatile ("mcr p15, 0, %0, c2, c0, 0"
+                ::"r" (0b1001010 | (unsigned) &page_table));
+
+                asm volatile ("isb"::: "memory");
+
+                // enable MMU and D/L2 cache in SCTLR
+                uint32_t mode;
+                asm volatile ("mrc p15, 0, %0, c1, c0, 0" : "=r" (mode));
+                mode |= (SCTLR_M | SCTLR_C | SCTLR_I | SCTLR_AFE);
+                asm volatile ("mcr p15, 0, %0, c1, c0, 0"::"r" (mode) : "memory");
+            }
         }
-
-        //16 MB peripherals at 0x3F000000
-        for (; base < 1024; base++) {
-            page_table[base] = base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_XN | MMU_L1_SEC_DEVICE |
-                                                                                                   MMU_L1_SEC_AP;
-        }
-
-        //Mailboxes at 0x40000000
-        page_table[base] = base << 20 | MMU_L1_SEC_IS_SECTION | MMU_L1_SEC_S | MMU_L1_SEC_XN | MMU_L1_SEC_DEVICE |
-                                                                                               MMU_L1_SEC_AP;
-        ++base;
-
-        // unused up to 0x7FFFFFFF
-        for (; base < 2048; base++) {
-            page_table[base] = 0;
-        }
-
-        for (; base < 4096; base++) {
-            page_table[base] = 0;
-        }
-
-        uint32_t auxctrl;
-        asm volatile ("mrc p15, 0, %0, c1, c0,  1" : "=r" (auxctrl));
-        auxctrl |= ACTLR_SMP;
-        asm volatile ("mcr p15, 0, %0, c1, c0,  1" :: "r" (auxctrl));
-
-        // setup domains (CP15 c3)
-        // Write Domain Access Control Register
-        // use access permissions from TLB entry
-        asm volatile ("mcr     p15, 0, %0, c3, c0, 0" :: "r" (0x55555555));
-
-        // set domain 0 to client
-        asm volatile ("mcr p15, 0, %0, c3, c0, 0" :: "r" (1));
-
-        // always use TTBR0
-        asm volatile ("mcr p15, 0, %0, c2, c0, 2" :: "r" (0));
-
-        // set TTBR0 (page table walk inner and outer write-back,
-        // write-allocate, cacheable, shareable memory)
-        asm volatile ("mcr p15, 0, %0, c2, c0, 0"
-        :: "r" (0b1001010 | (unsigned) &page_table));
-
-        asm volatile ("isb" ::: "memory");
-
-        // enable MMU and D/L2 cache in SCTLR
-        uint32_t mode;
-        asm volatile ("mrc p15, 0, %0, c1, c0, 0" : "=r" (mode));
-        mode |= (SCTLR_M | SCTLR_C | SCTLR_I | SCTLR_AFE);
-        asm volatile ("mcr p15, 0, %0, c1, c0, 0" :: "r" (mode) : "memory");
     }
-};
+}

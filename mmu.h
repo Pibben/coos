@@ -5,9 +5,12 @@
 #ifndef KERNEL_MMU_H
 #define KERNEL_MMU_H
 
-
-namespace mmu {
-    void enable();
-};
+namespace cpu {
+    namespace core {
+        namespace mmu {
+            void enable();
+        }
+    }
+}
 
 #endif //KERNEL_MMU_H
