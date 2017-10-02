@@ -7,7 +7,6 @@
 #include "smp.h"
 #include "mmu.h"
 #include "fpu.h"
-#include "reg.h"
 #include "system.h"
 
 extern "C" void park_cpus();

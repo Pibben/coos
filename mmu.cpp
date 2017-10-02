@@ -5,7 +5,6 @@
 #include "mmu.h"
 
 #include <stdint.h>
-#include "reg.h"
 
 //http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0425/ch04s01s01.html
 //https://github.com/mrvn/test/blob/master/mmu.cc

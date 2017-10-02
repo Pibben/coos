@@ -3,7 +3,6 @@
 //
 
 #include "Gpio.h"
-#include "reg.h"
 #include "Register.h"
 #include "utils.h"
 #include "system.h"

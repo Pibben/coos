@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 #include "fpu.h"
-#include "reg.h"
 
 enum {
     CPACR_CP10_ACCESS_DENIED = (0 << 20),

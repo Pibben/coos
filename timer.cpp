@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 #include "timer.h"
-#include "reg.h"
 #include "interrupts.h"
 #include "system.h"
 #include "Register.h"

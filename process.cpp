@@ -4,7 +4,7 @@
 
 #include "process.h"
 #include "ProcessTable.h"
-#include "reg.h"
+#include "core.h"
 
 extern "C" void contextSwitch(uintptr_t*, uintptr_t*);
 

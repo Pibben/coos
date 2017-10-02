@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include "interrupts.h"
+#include "core.h"
 
 class InterruptLock {
 private:

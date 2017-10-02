@@ -1,7 +1,9 @@
-#include <stdint.h>
+//
+// Created by per on 2017-10-02.
+//
 
-#ifndef REG_H
-#define REG_H
+#ifndef KERNEL_CORE_H
+#define KERNEL_CORE_H
 
 enum {
     CPSR_MODE_USR = 0x10,
@@ -17,4 +19,4 @@ enum {
     CPSR_IRQ = (1 << 7),
 };
 
-#endif
+#endif //KERNEL_CORE_H
