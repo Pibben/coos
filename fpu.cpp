@@ -23,14 +23,18 @@ enum {
     FPEXC_EN = (1 << 30),
 };
 
-namespace fpu {
-    void enable() {
-        uint32_t reg;
+namespace cpu {
+    namespace core {
+        namespace fpu {
+            void enable() {
+                uint32_t reg;
 
-        asm volatile("mrc p15, 0, %0, c1, c0, 2" : "=r" (reg)); // CPACR - Coprocessor Access Control Register
-        reg |= CPACR_CP10_ACCESS_ALL | CPACR_CP11_ACCESS_ALL;
-        asm volatile("mcr p15,0,%0,c1,c0,2" :: "r" (reg));
+                asm volatile("mrc p15, 0, %0, c1, c0, 2" : "=r" (reg)); // CPACR - Coprocessor Access Control Register
+                reg |= CPACR_CP10_ACCESS_ALL | CPACR_CP11_ACCESS_ALL;
+                asm volatile("mcr p15,0,%0,c1,c0,2"::"r" (reg));
 
-        asm volatile("vmsr fpexc,%0" :: "r" (FPEXC_EN));
+                asm volatile("vmsr fpexc,%0"::"r" (FPEXC_EN));
+            }
+        }
     }
-};
+}

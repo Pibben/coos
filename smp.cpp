@@ -66,7 +66,7 @@ namespace smp {
         System::uart().write("\n");
         mmu::enable();
         System::uart().write("core is virtual\n");
-        fpu::enable();
+        cpu::core::fpu::enable();
         printf("core is floating\n");
 
         started = true;
