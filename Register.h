@@ -1,5 +1,7 @@
 #include <cstdint>
 
+#include "utils.h"
+
 class Register {
 public:
     Register(uintptr_t address) : mAddress((uint32_t*)address) {
@@ -45,6 +47,9 @@ public:
     }
     operator uint32_t() const {
         return read();
+    }
+    uintptr_t getAddress() {
+        return (uintptr_t)mAddress;
     }
 private:
     volatile uint32_t* mAddress;

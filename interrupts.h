@@ -11,8 +11,10 @@
 #include "reg.h"
 
 
-void enable_Basic_IRQs(uint32_t irqs);
-void disable_Basic_IRQs(uint32_t irqs);
+void enableArmTimerInterrupt();
+void disableArmTimerInterrupt();
+void enableSystemTimerInterrupt(uint_fast8_t timerIdx);
+void disableSystemTimerInterrupt(uint_fast8_t timerIdx);
 void enable_interrupts();
 void disable_interrupts();
 
