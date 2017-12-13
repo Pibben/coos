@@ -3,7 +3,7 @@ C++ Open Operating System
 
 ## Resources
 
-### Raspberry Pi
+### Raspberry Pi and ARM
 * https://github.com/dwelch67/raspberrypi
 * https://github.com/naums/raspberrypi
 * https://github.com/klange/toaru-rpi/tree/master/kernel/arch/rpi
@@ -23,6 +23,8 @@ C++ Open Operating System
 * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0464f/index.html Cortex-A7 MPCore Technical Reference Manual
 * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0464f/DDI0464F_cortex_a7_mpcore_r0p5_trm.pdf -""-
 * http://liris.cnrs.fr/~mmrissa/lib/exe/fetch.php?media=armv7-a-r-manual.pdf
+* http://legup.eecg.utoronto.ca/wiki/doku.php?id=using_arm_caches
+* https://android.googlesource.com/kernel/msm/+/3ab322a9e0a419e7f378770c9edebca17821bf6e/arch/arm/mm/proc-v7.S
 
 
 ### NanoPi M3
