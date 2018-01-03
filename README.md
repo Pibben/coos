@@ -25,6 +25,7 @@ C++ Open Operating System
 * http://liris.cnrs.fr/~mmrissa/lib/exe/fetch.php?media=armv7-a-r-manual.pdf
 * http://legup.eecg.utoronto.ca/wiki/doku.php?id=using_arm_caches
 * https://android.googlesource.com/kernel/msm/+/3ab322a9e0a419e7f378770c9edebca17821bf6e/arch/arm/mm/proc-v7.S
+* http://hunterhu.com/blogs/arm-spinlock-implementation-analysis
 
 
 ### NanoPi M3
@@ -42,3 +43,4 @@ C++ Open Operating System
 * https://github.com/xinu-os/xinu/blob/master/system/arch/arm/ctxsw.S
 * https://kukuruku.co/post/multitasking-management-in-the-operating-system-kernel/
 * https://github.com/JustSid/Firedrake
+* https://www.cs.purdue.edu/homes/dxu/cs503/notes/part10.pdf
