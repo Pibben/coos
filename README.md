@@ -28,6 +28,7 @@ C++ Open Operating System
 * http://hunterhu.com/blogs/arm-spinlock-implementation-analysis
 * http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/os/
 * https://github.com/Joeboy/pixperiments/tree/master/pitracker
+* https://github.com/jsandler18/raspi-kernel/
 
 
 ### NanoPi M3
