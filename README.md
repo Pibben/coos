@@ -29,6 +29,7 @@ C++ Open Operating System
 * http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/os/
 * https://github.com/Joeboy/pixperiments/tree/master/pitracker
 * https://github.com/jsandler18/raspi-kernel/
+* https://github.com/jserv/mini-arm-os
 
 
 ### NanoPi M3
