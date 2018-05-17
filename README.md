@@ -31,7 +31,6 @@ C++ Open Operating System
 * https://github.com/jsandler18/raspi-kernel/
 * https://github.com/jserv/mini-arm-os
 
-
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
 * https://github.com/friendlyarm/linux-3.4.y/issues/3
@@ -42,6 +41,9 @@ C++ Open Operating System
 * https://linux-sunxi.org/Main_Page (Allwinner)
 * https://github.com/arobenko/embxx
 * https://www.ece.umd.edu/class/enee447.S2016/ARM-Documentation/ARM_architecture_reference_manual.pdf (D7.3 locks et.c.)
+
+### x86
+* https://github.com/skeeto/dosdefender-ld31
 
 ### General OS
 * https://github.com/xinu-os/xinu/blob/master/system/arch/arm/ctxsw.S
