@@ -30,6 +30,7 @@ C++ Open Operating System
 * https://github.com/Joeboy/pixperiments/tree/master/pitracker
 * https://github.com/jsandler18/raspi-kernel/
 * https://github.com/jserv/mini-arm-os
+* https://jacobmossberg.se/posts/2018/08/11/run-c-program-bare-metal-on-arm-cortex-m3.html
 
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
