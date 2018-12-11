@@ -51,3 +51,4 @@ C++ Open Operating System
 * https://kukuruku.co/post/multitasking-management-in-the-operating-system-kernel/
 * https://github.com/JustSid/Firedrake
 * https://www.cs.purdue.edu/homes/dxu/cs503/notes/part10.pdf
+* http://www.rohitab.com/discuss/forum/41-operating-system-development-osdev/
