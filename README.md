@@ -52,3 +52,4 @@ C++ Open Operating System
 * https://github.com/JustSid/Firedrake
 * https://www.cs.purdue.edu/homes/dxu/cs503/notes/part10.pdf
 * http://www.rohitab.com/discuss/forum/41-operating-system-development-osdev/
+* http://www.brokenthorn.com/Resources/
