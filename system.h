@@ -16,6 +16,7 @@ private:
     static ArmTimer mArmTimer;
     static SystemTimer mSystemTimer1;
     static SystemTimer mSystemTimer3;
+    static LocalTimer mLocalTimer;
 public:
     static Eventloop& eventloop() {
         return mEventloop;
@@ -36,8 +37,16 @@ public:
     static SystemTimer& systemTimer3() {
         return mSystemTimer3;
     }
+
+    static LocalTimer& localTimer() {
+        return mLocalTimer;
+    }
+
     static constexpr uint32_t getPeripheralBase() {
         return 0x3f000000;
+    }
+    static constexpr uint32_t getLocalPeripheralBase() {
+        return 0x40000000;
     }
 };
 

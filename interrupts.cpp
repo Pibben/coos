@@ -22,6 +22,10 @@ static Register DISABLE_IRQS_1    (INTERRUPT_CONTROLLER_BASE + 0x1C);
 //DISABLE_IRQS_2 = (INTERRUPT_CONTROLLER_BASE + 0x20),
 static Register DISABLE_BASIC_IRQS(INTERRUPT_CONTROLLER_BASE + 0x24);
 
+static const uint32_t LOCAL_IRQ_BASE = (System::getLocalPeripheralBase() + 0x60);
+static Register CORE0_IRQ_SOURCE (LOCAL_IRQ_BASE + 0x00);
+
+
 namespace {
 //BASIC IRQs
     enum {
@@ -73,6 +77,8 @@ void interruptHandler()
         System::systemTimer1().handleTimerInterrupt();
     } else if(IRQ_PENDING_1.get(3)) {
         System::systemTimer3().handleTimerInterrupt();
+    } else if(CORE0_IRQ_SOURCE.get(3)) {
+        System::localTimer().handleTimerInterrupt();
     }
 }
 

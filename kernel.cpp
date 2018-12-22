@@ -39,7 +39,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
     printf("CLib printf OK!\r\n");
 
-    ATAG_Scanner((uint32_t*)atags);
+    //ATAG_Scanner((uint32_t*)atags);
     
     std::vector<int> v;
     v.push_back(4711);
@@ -87,6 +87,12 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     });
 
     ev.runOne();
+    printf("Local Timer ");
+    System::localTimer().setTimer(1000*1000, [] {
+        printf("OK!\r\n");
+    });
+
+    ev.runOne();
 
     cpu::core::mmu::enable();
 
@@ -101,16 +107,16 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     smp::run(3, coreTest, (void *) 3);
 
     MD5 md5;
-    uint32_t t = System::systemTimer1().getValue();
+    uint64_t t = System::localTimer().getValue();
     md5.update((unsigned char*)0x0, 1024*1024*2);
     md5.finalize();
-    printf("MD5: [%s] (%lu us)\r\n", md5.hexdigest().c_str(), System::systemTimer1().getValue()-t);
+    printf("MD5: [%s] (%llu ticks)\r\n", md5.hexdigest().c_str(), System::localTimer().getValue()-t);
 
-    t = System::systemTimer1().getValue();
+    t = System::localTimer().getValue();
     for(volatile int i = 0; i < 1000*1000; ++i) {
 
     }
-    printf("Buzy loop %lu us.\r\n", System::systemTimer1().getValue()-t);
+    printf("Buzy loop %llu ticks.\r\n", System::localTimer().getValue()-t);
 
     while ( true );
 }

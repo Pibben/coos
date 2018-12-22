@@ -8,6 +8,7 @@
 #include "interrupts.h"
 #include "system.h"
 #include "Register.h"
+#include "coprocessor.h"
 
 static const uint32_t ARMTIMER_BASE = (System::getPeripheralBase() + 0xB400);
 
@@ -105,4 +106,32 @@ void SystemTimer::handleTimerInterrupt() {
 
 uint32_t SystemTimer::getValue() {
     return SYSTEM_TIMER_CLO.read();
+}
+
+static const uint32_t LOCAL_TIMER_BASE = (System::getLocalPeripheralBase() + 0x40);
+static Register CORE0_TIMER_IRQCNTL (LOCAL_TIMER_BASE + 0x00);
+
+void LocalTimer::enableTimer(uint32_t value) {
+    CORE0_TIMER_IRQCNTL.set(3);
+    WRITE_CP32(1, CNTV_CTL);
+    WRITE_CP32(value, CNTV_TVAL);
+
+    cpu::interrupt::enable();
+}
+
+void LocalTimer::disableTimer() {
+    CORE0_TIMER_IRQCNTL.clear(3); //?
+    WRITE_CP32(0, CNTV_CTL);
+}
+
+void LocalTimer::handleTimerInterrupt() {
+    WRITE_CP32(0, CNTV_TVAL);
+    System::eventloop().postIntr(gTimerCallback);
+    disableTimer();
+}
+
+uint64_t LocalTimer::getValue() {
+    uint64_t value;
+    READ_CP64(value, CNTVCT);
+    return value;
 }

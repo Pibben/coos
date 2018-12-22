@@ -39,5 +39,20 @@ public:
     }
 };
 
+class LocalTimer {
+    std::function<void(void)> gTimerCallback;
+    void enableTimer(uint32_t value);
+    void disableTimer();
+public:
+    void handleTimerInterrupt();
+    uint64_t getValue();
+
+    template <class Func>
+    void setTimer(uint32_t value, Func&& func) {
+        gTimerCallback = std::forward<Func>(func);
+        enableTimer(value);
+    }
+};
+
 
 #endif //KERNEL_TIMER_H

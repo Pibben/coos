@@ -9,3 +9,4 @@ Uart System::mUart;
 ArmTimer System::mArmTimer;
 SystemTimer System::mSystemTimer1(1);
 SystemTimer System::mSystemTimer3(3);
+LocalTimer System::mLocalTimer;
