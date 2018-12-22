@@ -7,8 +7,6 @@ set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall" )
 #set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra" )
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2" )
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/newlib/c++/4.9/" )
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/newlib/c++/4.9/arm-none-eabi/" )
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall" )
 #set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra" )
