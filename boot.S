@@ -55,6 +55,22 @@ _interrupt_vector_h:                .word   irq_handler
 _fast_interrupt_vector_h:           .word   halt
 
 _reset_:
+    // From https://github.com/qemu/qemu/blob/master/hw/arm/boot.c#L243
+//#ifdef QEMU
+    mrc p15, 0, r0, c1 , c1, 0 // read SCR
+    orr r0, #0x31              // enable AW, FW, NS
+    mcr p15, 0, r0, c1, c1, 0  //  write SCR */
+
+    // in QEMU all of 4 ARM CPUs are started simultaniously
+    // by default. I don't know if this is the real hw behaviour,
+    // but here I jump to halt if CPU ID (stored in MPIDR
+    // register, first 2 bits) is not 0
+
+    mrc p15, #0, r1, c0, c0, #5
+    and r1, r1, #3
+    cmp r1, #0
+    bne halt
+//#endif
     // We enter execution in supervisor mode. For more information on
     // processor modes see ARM Section A2.2 (Processor Modes)
 

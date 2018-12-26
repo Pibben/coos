@@ -38,6 +38,14 @@ namespace {
         BASIC_ACCESS_ERROR_1_IRQ,
         BASIC_ACCESS_ERROR_0_IRQ
     };
+
+    //Core Timer interrupts
+    enum {
+        CNTPSIRQ,
+        CNTPNSIRQ,
+        CNTHPIRQ,
+        CNTVIRQ
+    };
 }
 
 namespace cpu {
@@ -77,7 +85,7 @@ void interruptHandler()
         System::systemTimer1().handleTimerInterrupt();
     } else if(IRQ_PENDING_1.get(3)) {
         System::systemTimer3().handleTimerInterrupt();
-    } else if(CORE0_IRQ_SOURCE.get(3)) {
+    } else if(CORE0_IRQ_SOURCE.get(CNTPNSIRQ)) {
         System::localTimer().handleTimerInterrupt();
     }
 }

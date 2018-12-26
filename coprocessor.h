@@ -5,10 +5,12 @@
 #ifndef KERNEL_COPROCESSOR_H
 #define KERNEL_COPROCESSOR_H
 
-#define WRITE_CP2(src, spec) asm volatile("MCR, p15, " spec :: "r" (src))
-#define READ_CP2(dst, spec) asm volatile("MRC, p15, " spec : "=r" (dst))
+#define WRITE_CP32(src, spec) asm volatile("MCR p15, " spec :: "r" (src))
+#define READ_CP32(dst, spec) asm volatile("MRC p15, " spec : "=r" (dst))
+#define READ_CP64(dst, spec) asm volatile("MRRC p15, " spec : "=r" (dst))
 
 #define MK_CP(rn, op1, rm, op2) #op1 ", %0, " #rn ", " #rm", " #op2
+#define MK_CP64(op1, rm) #op1 ", %Q0, %R0, " #rm
 
 #define MIDR   MK_CP(c0, 0, c0, 0)
 #define CTR    MK_CP(c0, 0, c0, 1)
@@ -53,5 +55,13 @@
 #define TTBCR MK_CP(c2, 0, c0, 2)
 
 #define DACR MK_CP(c3, 0, c0, 0)
+
+#define CNTFRQ    MK_CP(c14, 0, c0, 0)
+#define CNTP_TVAL MK_CP(c14, 0, c2, 0)
+#define CNTP_CTL  MK_CP(c14, 0, c2, 1)
+#define CNTPCT    MK_CP64(0, c14)
+#define CNTV_TVAL MK_CP(c14, 0, c3, 0)
+#define CNTV_CTL  MK_CP(c14, 0, c3, 1)
+#define CNTVCT    MK_CP64(1, c14)
 
 #endif //KERNEL_COPROCESSOR_H
