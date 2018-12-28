@@ -55,21 +55,27 @@ _interrupt_vector_h:                .word   irq_handler
 _fast_interrupt_vector_h:           .word   halt
 
 _reset_:
-    // From https://github.com/qemu/qemu/blob/master/hw/arm/boot.c#L243
+
 //#ifdef QEMU
+    // From https://github.com/qemu/qemu/blob/master/hw/arm/boot.c#L243
     mrc p15, 0, r0, c1 , c1, 0 // read SCR
     orr r0, #0x31              // enable AW, FW, NS
     mcr p15, 0, r0, c1, c1, 0  //  write SCR */
 
-    // in QEMU all of 4 ARM CPUs are started simultaniously
-    // by default. I don't know if this is the real hw behaviour,
-    // but here I jump to halt if CPU ID (stored in MPIDR
-    // register, first 2 bits) is not 0
+    // Inspired from https://github.com/qemu/qemu/blob/master/hw/arm/raspi.c#L45
+    mrc p15, #0, r0, c0, c0, #5
+    and r0, r0, #3               //r0 holds Core ID
+    cmp r0, #0
+    beq core0
+    ldr r5, =0x400000CC          //Load mainbox base
+1:  yield
+    ldr r3, [r5, r0, lsl #4]     //Read mailbox
+    cmp r3, #0                   //Spin while zero
+    beq 1b
+    str r3, [r5, r0, lsl #4]     //Clear mailbox
+    bx  r3                       //Jump to taget
 
-    mrc p15, #0, r1, c0, c0, #5
-    and r1, r1, #3
-    cmp r1, #0
-    bne halt
+core0:
 //#endif
     // We enter execution in supervisor mode. For more information on
     // processor modes see ARM Section A2.2 (Processor Modes)
