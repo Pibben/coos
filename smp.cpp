@@ -8,6 +8,7 @@
 #include "mmu.h"
 #include "fpu.h"
 #include "system.h"
+#include "coprocessor.h"
 
 extern "C" void park_cpus();
 
@@ -31,7 +32,7 @@ namespace smp {
     // Multiprocessor Affinity Register (MPIDR)
     uint_fast8_t getCoreId() {
         uint32_t mpidr;
-        asm volatile ("mrc p15,0,%0,c0,c0,5" : "=r" (mpidr));
+        READ_CP32(mpidr, MPIDR);
         return mpidr & 0x3;
     }
 
