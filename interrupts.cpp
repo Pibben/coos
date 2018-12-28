@@ -39,6 +39,13 @@ namespace {
         BASIC_ACCESS_ERROR_0_IRQ
     };
 
+    const uint32_t CORE_TIMER_IRQCNTL_BASE = (System::getLocalPeripheralBase() + 0x40);
+    Register CORE0_TIMER_IRQCNTL (CORE_TIMER_IRQCNTL_BASE + 0x00);
+    Register CORE1_TIMER_IRQCNTL (CORE_TIMER_IRQCNTL_BASE + 0x04);
+    Register CORE2_TIMER_IRQCNTL (CORE_TIMER_IRQCNTL_BASE + 0x08);
+    Register CORE3_TIMER_IRQCNTL (CORE_TIMER_IRQCNTL_BASE + 0x0C);
+
+
     //Core Timer interrupts
     enum {
         CNTPSIRQ,
@@ -64,6 +71,14 @@ namespace cpu {
 
         void disableSystemTimer(uint_fast8_t timerIdx) {
             DISABLE_IRQS_1.set(timerIdx);
+        }
+
+        void enableCoreTimer() {
+            CORE0_TIMER_IRQCNTL.set(1);
+        }
+
+        void disableCoreTimer() {
+            CORE0_TIMER_IRQCNTL.clear(1); //?
         }
 
         void enable() {

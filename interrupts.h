@@ -18,6 +18,10 @@ namespace cpu {
 
         void disableSystemTimer(uint_fast8_t timerIdx);
 
+        void enableCoreTimer();
+
+        void disableCoreTimer();
+
         void enable();
 
         void disable();

@@ -111,28 +111,22 @@ uint32_t SystemTimer::getValue() {
 static const uint32_t LOCAL_PERIPHERAL_BASE = (System::getLocalPeripheralBase());
 static Register CORE_TIMER_CTL (LOCAL_PERIPHERAL_BASE + 0x00);
 static Register CORE_TIMER_PRESCALE (LOCAL_PERIPHERAL_BASE + 0x08);
-static const uint32_t LOCAL_TIMER_BASE = (System::getLocalPeripheralBase() + 0x40);
-static Register CORE0_TIMER_IRQCNTL (LOCAL_TIMER_BASE + 0x00);
 
 void LocalTimer::enableTimer(uint32_t value) {
-    //TODO: Frequency in CNTFRQ (not set on boot)
+    //TODO: Frequency in CNTFRQ (not set on boot?) QEMU is 62.5MHz.
     //Clock source in 0x40000000, crystal clock (default) is 19.2MHz
     //Pre-scaler in 0x40000008, set to 0x06AAAAAB for 1MHz clock.
-    //printf("Boot prescaler is %d\n", CORE_TIMER_PRESCALE.read());
-    //CORE_TIMER_PRESCALE.write(0x06AAAAAB);
-    //printf("Set prescaler is %d\n", CORE_TIMER_PRESCALE.read());
-    //Pre-scaler not implemented in QEMU?
 
     WRITE_CP32(value, CNTP_TVAL);
-    CORE0_TIMER_IRQCNTL.set(1);
-    WRITE_CP32(1, CNTP_CTL);
+    cpu::interrupt::enableCoreTimer();
+    WRITE_CP32(1, CNTP_CTL); // ENABLE
 
     cpu::interrupt::enable();
 }
 
 void LocalTimer::disableTimer() {
-    CORE0_TIMER_IRQCNTL.clear(1); //?
-    WRITE_CP32(0, CNTP_CTL);
+    cpu::interrupt::disableCoreTimer();
+    WRITE_CP32(0, CNTP_CTL); // ~ENABLE
 }
 
 void LocalTimer::handleTimerInterrupt() {
