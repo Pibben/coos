@@ -22,7 +22,7 @@ C++ Open Operating System
 * https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2836/QA7_rev3.4.pdf
 * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0464f/index.html Cortex-A7 MPCore Technical Reference Manual
 * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0464f/DDI0464F_cortex_a7_mpcore_r0p5_trm.pdf -""-
-* http://liris.cnrs.fr/~mmrissa/lib/exe/fetch.php?media=armv7-a-r-manual.pdf
+* https://static.docs.arm.com/ddi0406/c/DDI0406C_C_arm_architecture_reference_manual.pdf
 * http://legup.eecg.utoronto.ca/wiki/doku.php?id=using_arm_caches
 * https://android.googlesource.com/kernel/msm/+/3ab322a9e0a419e7f378770c9edebca17821bf6e/arch/arm/mm/proc-v7.S
 * http://hunterhu.com/blogs/arm-spinlock-implementation-analysis
@@ -31,6 +31,8 @@ C++ Open Operating System
 * https://github.com/jsandler18/raspi-kernel/
 * https://github.com/jserv/mini-arm-os
 * https://jacobmossberg.se/posts/2018/08/11/run-c-program-bare-metal-on-arm-cortex-m3.html
+* https://github.com/deepan/stm32/blob/master/Blink_led_STM32F1/libs/CMSIS/src/startup_cm.c
+* https://github.com/eggman/raspberrypi/tree/master/qemu-raspi2
 
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
