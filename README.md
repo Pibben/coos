@@ -45,6 +45,7 @@ C++ Open Operating System
 * https://linux-sunxi.org/Main_Page (Allwinner)
 * https://github.com/arobenko/embxx
 * https://www.ece.umd.edu/class/enee447.S2016/ARM-Documentation/ARM_architecture_reference_manual.pdf (D7.3 locks et.c.)
+* https://hackaday.com/2020/11/17/bare-metal-stm32-from-power-up-to-hello-world/
 
 ### x86
 * https://github.com/skeeto/dosdefender-ld31
