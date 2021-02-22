@@ -59,6 +59,7 @@ C++ Open Operating System
 * http://www.brokenthorn.com/Resources/
 * https://github.com/DISTORTEC/distortos (object-oriented C++ RTOS for microcontrollers)
 * https://github.com/SerenityOS/serenity (Serenity Operating System (C++))
+* https://github.com/EtchedPixels/FUZIX
 
 ### Coroutines
 * https://github.com/user1095108/generic/blob/master/coroutine.hpp
