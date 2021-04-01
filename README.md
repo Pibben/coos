@@ -34,6 +34,7 @@ C++ Open Operating System
 * https://github.com/deepan/stm32/blob/master/Blink_led_STM32F1/libs/CMSIS/src/startup_cm.c
 * https://github.com/eggman/raspberrypi/tree/master/qemu-raspi2
 * https://github.com/xinu-os/xinu/blob/23715ec2821708f5d971a4eee7dea7b57fed8a39/system/create.c
+* https://hackaday.com/2021/03/26/bare-metal-stm32-please-mind-the-interrupt-event/
 
 ### NanoPi M3
 * https://github.com/metro94/s5p6818_bootloader
